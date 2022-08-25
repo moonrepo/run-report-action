@@ -1,0 +1,9 @@
+name: 'moon - CI run reports'
+author: 'Miles Johnson'
+description: ''
+runs:
+  using: 'node16'
+  main: 'dist/index.mjs'
+branding:
+  icon: 'moon'
+  color: 'purple'
