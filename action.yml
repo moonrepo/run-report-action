@@ -3,7 +3,7 @@ author: 'Miles Johnson'
 description: 'Reports the run results of `moon ci` to a pull request.'
 runs:
   using: 'node16'
-  main: 'dist/index.mjs'
+  main: 'dist/index.js'
 branding:
   icon: 'moon'
   color: 'purple'

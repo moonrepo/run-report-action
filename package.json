@@ -16,7 +16,8 @@
   "author": "Miles Johnson",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.9.1"
+    "@actions/core": "^1.9.1",
+    "@moonrepo/types": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.7.17",
