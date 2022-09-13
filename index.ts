@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+
 import fs from 'fs';
 import path from 'path';
 import * as core from '@actions/core';
@@ -6,8 +8,7 @@ import type { RunReport } from '@moonrepo/types';
 import { COMMENT_TOKEN, formatReportToMarkdown, sortReport } from './helpers';
 
 function loadReport(workspaceRoot: string): RunReport | null {
-	// eslint-disable-next-line @typescript-eslint/no-for-in-array, guard-for-in
-	for (const fileName in ['ciReport.json', 'runReport.json']) {
+	for (const fileName of ['ciReport.json', 'runReport.json']) {
 		const reportPath = path.join(workspaceRoot, '.moon/cache', fileName);
 
 		core.debug(`Finding run report at ${reportPath}`);
@@ -22,7 +23,7 @@ function loadReport(workspaceRoot: string): RunReport | null {
 	return null;
 }
 
-async function saveComment(accessToken: string, commentBody: string) {
+async function saveComment(accessToken: string, markdown: string) {
 	const {
 		payload: { pull_request: pr, issue },
 		repo,
@@ -48,7 +49,7 @@ async function saveComment(accessToken: string, commentBody: string) {
 
 		await octokit.rest.issues.updateComment({
 			...repo,
-			body: commentBody,
+			body: markdown,
 			comment_id: existingComment.id,
 		});
 	} else {
@@ -56,18 +57,23 @@ async function saveComment(accessToken: string, commentBody: string) {
 
 		await octokit.rest.issues.createComment({
 			...repo,
-			body: commentBody,
+			body: markdown,
 			issue_number: id,
 		});
 	}
 
-	core.debug(`Comment body:\n\n${commentBody}`);
+	core.debug(`Comment body:\n\n${markdown}`);
+}
+
+function saveSummary(markdown: string) {
+	core.summary.addRaw(markdown);
 }
 
 async function run() {
 	try {
 		const accessToken = core.getInput('access-token');
-		const workspaceRoot = core.getInput('workspace-root') || process.cwd();
+		const workspaceRoot =
+			core.getInput('workspace-root') || process.env.GITHUB_WORKSPACE || process.cwd();
 
 		core.debug(`Using workspace root ${workspaceRoot}`);
 
@@ -94,6 +100,7 @@ async function run() {
 
 		// Create the comment
 		await saveComment(accessToken, markdown);
+		saveSummary(markdown);
 
 		core.setOutput('comment-created', 'true');
 	} catch (error: unknown) {
