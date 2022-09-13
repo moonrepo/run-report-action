@@ -10,6 +10,8 @@ jobs:
         with:
           ref: ${{ github.event.release.tag_name }}
       - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
       - run: npm ci
       - run: npm run build
       - uses: JasonEtco/build-and-tag-action@v1
