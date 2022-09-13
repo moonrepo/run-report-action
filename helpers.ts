@@ -12,7 +12,7 @@ export function getIconForStatus(status: ActionStatus): string {
 		case 'passed':
 			return '🟩';
 		default:
-			return '⬜️';
+			return '⬛️';
 	}
 }
 
@@ -39,7 +39,11 @@ export function formatDuration(duration: Duration | null): string {
 		return '--';
 	}
 
-	const millis = duration.nanos / 1000000;
+	let millis = (duration.nanos / 1000000).toFixed(1);
+
+	if (millis.endsWith('.0')) {
+		millis = millis.slice(0, -2);
+	}
 
 	if (duration.secs === 0) {
 		return `${millis}ms`;
@@ -62,9 +66,7 @@ export function formatDuration(duration: Duration | null): string {
 		value.push(`${secs}s`);
 	}
 
-	if (millis > 0) {
-		value.push(`${millis}ms`);
-	}
+	value.push(`${millis}ms`);
 
 	return value.join(', ');
 }
@@ -83,7 +85,7 @@ export function formatReportToMarkdown(report: RunReport): string {
 			comments.push('**FLAKY**');
 		}
 
-		if (action.attempts && action.attempts.length > 0) {
+		if (action.attempts && action.attempts.length > 1) {
 			comments.push(`${action.attempts.length} attempts`);
 		}
 

@@ -4,12 +4,12 @@ import fs from 'fs';
 import type { RunReport } from '@moonrepo/types';
 import { formatReportToMarkdown } from './helpers';
 
-async function loadReport(workspaceRoot: string): Promise<RunReport | null> {
+function loadReport(workspaceRoot: string): RunReport | null {
 	for (const fileName in ['ciReport.json', 'runReport.json']) {
 		const reportPath = path.join(workspaceRoot, '.moon/cache', fileName);
 
 		if (fs.existsSync(reportPath)) {
-			return JSON.parse(await fs.promises.readFile(reportPath, 'utf8')) as RunReport;
+			return JSON.parse(fs.readFileSync(reportPath, 'utf8')) as RunReport;
 		}
 	}
 
@@ -18,7 +18,7 @@ async function loadReport(workspaceRoot: string): Promise<RunReport | null> {
 
 try {
 	const workspaceRoot = core.getInput('workspace-root') || process.cwd();
-	const report = await loadReport(workspaceRoot);
+	const report = loadReport(workspaceRoot);
 
 	if (!report) {
 		core.debug('Run report does not exist, has `moon ci` ran?');
