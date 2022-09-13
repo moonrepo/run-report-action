@@ -66,8 +66,8 @@ async function saveComment(accessToken: string, markdown: string) {
 	core.debug(`Comment body:\n\n${markdown}`);
 }
 
-function saveSummary(markdown: string) {
-	core.summary.addRaw(markdown);
+async function saveSummary(markdown: string) {
+	await core.summary.addRaw(markdown).write();
 }
 
 async function run() {
