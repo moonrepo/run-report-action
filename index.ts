@@ -36,7 +36,6 @@ async function saveComment(accessToken: string, markdown: string) {
 	}
 
 	const octokit = github.getOctokit(accessToken);
-
 	const { data: comments } = await octokit.rest.issues.listComments({
 		...repo,
 		issue_number: id,

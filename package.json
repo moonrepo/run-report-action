@@ -1,7 +1,7 @@
 {
   "name": "@moonrepo/run-report-action",
   "version": "0.0.9",
-  "description": "A GitHub action for displaying a run report within a pull request. ",
+  "description": "A GitHub action that reports the run results of `moon ci` to a pull request.",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build ./index.ts",
