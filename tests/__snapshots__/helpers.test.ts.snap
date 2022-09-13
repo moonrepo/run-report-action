@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`formatReportToMarkdown() renders a standard report 1`] = `
-"<!-- moon-run-report -->
+"<!-- moon-run-report: unknown -->
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -18,7 +18,7 @@ exports[`formatReportToMarkdown() renders a standard report 1`] = `
 `;
 
 exports[`formatReportToMarkdown() renders a standard report with touched files 1`] = `
-"<!-- moon-run-report -->
+"<!-- moon-run-report: unknown -->
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -45,7 +45,7 @@ apps/web/src/index.tsx
 `;
 
 exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
-"<!-- moon-run-report -->
+"<!-- moon-run-report: unknown -->
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -56,7 +56,7 @@ exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 `;
 
 exports[`formatReportToMarkdown() renders durations 1`] = `
-"<!-- moon-run-report -->
+"<!-- moon-run-report: unknown -->
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -68,7 +68,7 @@ exports[`formatReportToMarkdown() renders durations 1`] = `
 `;
 
 exports[`formatReportToMarkdown() renders errors 1`] = `
-"<!-- moon-run-report -->
+"<!-- moon-run-report: unknown -->
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -78,8 +78,8 @@ exports[`formatReportToMarkdown() renders errors 1`] = `
 `;
 
 exports[`formatReportToMarkdown() renders with git commit 1`] = `
-"<!-- moon-run-report -->
-### Run report for [59719f96](https://github.com/moonrepo/moon/pull/123/commits/59719f967ddcf585da9bc7ba8730dcd2865cbdfa)
+"<!-- moon-run-report: unknown -->
+### Run report for [59719f96](https://github.com/moonrepo/moon/commit/59719f967ddcf585da9bc7ba8730dcd2865cbdfa)
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
@@ -95,7 +95,7 @@ exports[`formatReportToMarkdown() renders with git commit 1`] = `
 `;
 
 exports[`sortReport() sorts by label 1`] = `
-"<!-- moon-run-report -->
+"<!-- moon-run-report: unknown -->
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -112,7 +112,7 @@ exports[`sortReport() sorts by label 1`] = `
 `;
 
 exports[`sortReport() sorts by time 1`] = `
-"<!-- moon-run-report -->
+"<!-- moon-run-report: unknown -->
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |

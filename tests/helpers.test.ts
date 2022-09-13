@@ -3,7 +3,7 @@ import type { RunReport } from '@moonrepo/types';
 import { formatReportToMarkdown, sortReport } from '../helpers';
 
 jest.mock('@actions/github', () => ({
-	context: { payload: {} },
+	context: { payload: {}, serverUrl: 'https://github.com' },
 }));
 
 describe('formatReportToMarkdown()', () => {
@@ -32,6 +32,10 @@ describe('formatReportToMarkdown()', () => {
 	it('renders with git commit', () => {
 		Object.assign(github.context, {
 			sha: '59719f967ddcf585da9bc7ba8730dcd2865cbdfa',
+			repo: {
+				owner: 'moonrepo',
+				repo: 'moon',
+			},
 			payload: {
 				pull_request: {
 					number: '123',
@@ -39,11 +43,10 @@ describe('formatReportToMarkdown()', () => {
 			},
 		});
 
-		process.env.GITHUB_REPOSITORY = 'moonrepo/moon';
-
 		expect(formatReportToMarkdown(require('./__fixtures__/standard.json'))).toMatchSnapshot();
 
-		delete process.env.GITHUB_REPOSITORY;
+		// @ts-expect-error Allow override
+		delete github.context.sha;
 	});
 });
 

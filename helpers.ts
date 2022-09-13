@@ -2,31 +2,20 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import type { Action, ActionStatus, Duration, RunReport } from '@moonrepo/types';
 
-export const COMMENT_TOKEN = '<!-- moon-run-report -->';
+export function getCommentToken() {
+	return `<!-- moon-run-report: ${github.context.action ?? 'unknown'} -->`;
+}
 
 export function getCommitInfo() {
-	const {
-		payload: { pull_request: pr },
-		sha,
-	} = github.context;
-
-	const server = process.env.GITHUB_SERVER_URL ?? 'https://github.com';
-	const repo = process.env.GITHUB_REPOSITORY;
+	const { repo, serverUrl, sha } = github.context;
 
 	if (!sha || !repo) {
 		return null;
 	}
 
-	if (pr) {
-		return {
-			sha,
-			url: `${server}/${repo}/pull/${pr.number}/commits/${sha}`,
-		};
-	}
-
 	return {
 		sha,
-		url: `${server}/${repo}/commit/${sha}`,
+		url: `${serverUrl}/${repo.owner}/${repo.repo}/commit/${sha}`,
 	};
 }
 
@@ -138,10 +127,10 @@ export function calculateTotalTime(report: RunReport): string {
 	return formatTime(mins, secs, 0);
 }
 
-export function formatReportToMarkdown(report: RunReport): string {
+export function formatReportToMarkdown(report: RunReport, root: string = ''): string {
 	const commit = getCommitInfo();
 	const markdown = [
-		COMMENT_TOKEN,
+		getCommentToken(),
 		commit ? `### Run report for [${commit.sha.slice(0, 8)}](${commit.url})` : '### Run report',
 		'|     | Action | Time | Status | Info |',
 		'| :-: | :----- | ---: | :----- | :--- |',
@@ -180,7 +169,7 @@ export function formatReportToMarkdown(report: RunReport): string {
 		);
 
 		report.context.touchedFiles.forEach((file) => {
-			markdown.push(`${file}`);
+			markdown.push(`${file.replace(root, '')}`);
 		});
 
 		markdown.push('```', '\n</div></details>');

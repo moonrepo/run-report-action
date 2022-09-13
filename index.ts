@@ -5,7 +5,7 @@ import path from 'path';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import type { RunReport } from '@moonrepo/types';
-import { COMMENT_TOKEN, formatReportToMarkdown, sortReport } from './helpers';
+import { formatReportToMarkdown, getCommentToken, sortReport } from './helpers';
 
 function loadReport(workspaceRoot: string): RunReport | null {
 	for (const fileName of ['ciReport.json', 'runReport.json']) {
@@ -42,7 +42,8 @@ async function saveComment(accessToken: string, markdown: string) {
 		issue_number: id,
 	});
 
-	const existingComment = comments.find((comment) => comment.body?.includes(COMMENT_TOKEN));
+	const commentToken = getCommentToken();
+	const existingComment = comments.find((comment) => comment.body?.includes(commentToken));
 
 	if (existingComment) {
 		core.debug(`Updating existing comment #${existingComment.id}`);
@@ -70,6 +71,8 @@ function saveSummary(markdown: string) {
 }
 
 async function run() {
+	console.log(github.context);
+
 	try {
 		const accessToken = core.getInput('access-token');
 		const workspaceRoot =
@@ -96,7 +99,7 @@ async function run() {
 		}
 
 		// Format the report into markdown
-		const markdown = formatReportToMarkdown(report);
+		const markdown = formatReportToMarkdown(report, workspaceRoot);
 
 		// Create the comment
 		await saveComment(accessToken, markdown);
