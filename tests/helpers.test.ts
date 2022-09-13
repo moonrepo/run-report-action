@@ -1,4 +1,5 @@
-import { formatReportToMarkdown } from '../helpers';
+import type { RunReport } from '@moonrepo/types';
+import { formatReportToMarkdown, sortReport } from '../helpers';
 
 describe('formatReportToMarkdown()', () => {
 	it('renders a standard report', () => {
@@ -33,5 +34,23 @@ describe('formatReportToMarkdown()', () => {
 		delete process.env.GITHUB_SHA;
 		delete process.env.GITHUB_REPOSITORY;
 		delete process.env.GITHUB_REF;
+	});
+});
+
+describe('sortReport()', () => {
+	it('sorts by time', () => {
+		const report = require('./__fixtures__/standard.json') as RunReport;
+
+		sortReport(report, 'time', 'desc');
+
+		expect(formatReportToMarkdown(report)).toMatchSnapshot();
+	});
+
+	it('sorts by label', () => {
+		const report = require('./__fixtures__/standard.json') as RunReport;
+
+		sortReport(report, 'label', 'asc');
+
+		expect(formatReportToMarkdown(report)).toMatchSnapshot();
 	});
 });

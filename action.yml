@@ -2,6 +2,12 @@ name: 'moon - CI run reports'
 author: 'Miles Johnson'
 description: 'Reports the run results of `moon ci` to a pull request.'
 inputs:
+  sort-by:
+    description: 'Field to sort actions by. Accepts "time" or "label".'
+    default: ''
+  sort-dir:
+    description: 'Direction to sort with.'
+    default: 'desc'
   workspace-root:
     description: 'Root of the moon workspace. Defaults to working directory.'
     default: ''

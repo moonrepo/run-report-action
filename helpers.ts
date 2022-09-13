@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import type { Action, ActionStatus, Duration, RunReport } from '@moonrepo/types';
 
 export function getCommitInfo() {
@@ -180,4 +181,38 @@ export function formatReportToMarkdown(report: RunReport): string {
 	}
 
 	return markdown.join('\n');
+}
+
+export function sortReport(report: RunReport, sortBy: string, sortDir: string) {
+	const isAsc = sortDir === 'asc';
+	let hasLogged = false;
+
+	report.actions.sort((a, d) => {
+		switch (sortBy) {
+			case 'time': {
+				const at: Duration = a.duration ?? { nanos: 0, secs: 0 };
+				const dt: Duration = d.duration ?? { nanos: 0, secs: 0 };
+				const am = at.secs * 1000 + at.nanos / 1_000_000;
+				const dm = dt.secs * 1000 + dt.nanos / 1_000_000;
+
+				return isAsc ? am - dm : dm - am;
+			}
+
+			case 'label': {
+				const al = a.label ?? '';
+				const dl = d.label ?? '';
+
+				return isAsc ? al.localeCompare(dl) : dl.localeCompare(al);
+			}
+
+			default: {
+				if (!hasLogged) {
+					hasLogged = true;
+					core.debug(`Unknown sort by field "${sortBy}".`);
+				}
+
+				return 0;
+			}
+		}
+	});
 }

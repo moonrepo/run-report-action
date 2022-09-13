@@ -87,3 +87,35 @@ exports[`formatReportToMarkdown() renders with git commit 1`] = `
 | 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
 | | | 7s | | |"
 `;
+
+exports[`sortReport() sorts by label 1`] = `
+"### Run report
+|     | Action | Time | Status | Info |
+| :-: | :----- | ---: | :----- | :--- |
+| ⬛️ | \`InstallNodeDeps\` | 3.6ms | skipped |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
+| 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
+| ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(types)\` | 3.2ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
+| | | 7s | | |"
+`;
+
+exports[`sortReport() sorts by time 1`] = `
+"### Run report
+|     | Action | Time | Status | Info |
+| :-: | :----- | ---: | :----- | :--- |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
+| 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
+| ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
+| ⬛️ | \`InstallNodeDeps\` | 3.6ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(types)\` | 3.2ms | skipped |  |
+| ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
+| | | 7s | | |"
+`;
