@@ -1,6 +1,10 @@
 name: 'moon - CI run reports'
 author: 'Miles Johnson'
 description: 'Reports the run results of `moon ci` to a pull request.'
+inputs:
+  workspace-root:
+    description: 'Root of the moon workspace. Defaults to working directory.'
+    default: ''
 runs:
   using: 'node16'
   main: 'dist/index.js'

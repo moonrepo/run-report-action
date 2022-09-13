@@ -22,4 +22,16 @@ describe('formatReportToMarkdown()', () => {
 	it('renders errors', () => {
 		expect(formatReportToMarkdown(require('./__fixtures__/errors.json'))).toMatchSnapshot();
 	});
+
+	it('renders with git commit', () => {
+		process.env.GITHUB_SHA = '59719f967ddcf585da9bc7ba8730dcd2865cbdfa';
+		process.env.GITHUB_REPOSITORY = 'moonrepo/moon';
+		process.env.GITHUB_REF = 'refs/pull/123/merge';
+
+		expect(formatReportToMarkdown(require('./__fixtures__/standard.json'))).toMatchSnapshot();
+
+		delete process.env.GITHUB_SHA;
+		delete process.env.GITHUB_REPOSITORY;
+		delete process.env.GITHUB_REF;
+	});
 });

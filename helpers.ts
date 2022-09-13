@@ -1,5 +1,29 @@
 import type { RunReport, Duration, Action, ActionStatus } from '@moonrepo/types';
 
+export function getCommitInfo() {
+	const sha = process.env.GITHUB_SHA;
+	const server = process.env.GITHUB_SERVER_URL || 'https://github.com';
+	const repo = process.env.GITHUB_REPOSITORY;
+
+	if (!sha || !repo) {
+		return null;
+	}
+
+	const pr = /refs\/pull\/(\d+)\//g.exec(process.env.GITHUB_REF!);
+
+	if (pr?.[1]) {
+		return {
+			sha,
+			url: `${server}/${repo}/pull/${pr[1]}/commits/${sha}`,
+		};
+	}
+
+	return {
+		sha,
+		url: `${server}/${repo}/commit/${sha}`,
+	};
+}
+
 export function getIconForStatus(status: ActionStatus): string {
 	switch (status) {
 		case 'cached':
@@ -147,6 +171,15 @@ export function formatReportToMarkdown(report: RunReport): string {
 		});
 
 		markdown.push('\n</div></details>');
+	}
+
+	const commit = getCommitInfo();
+
+	if (commit) {
+		markdown.push(
+			'',
+			`<small>Run report for commit [${commit.sha.slice(0, 7)}](${commit.url})</small>`,
+		);
 	}
 
 	return markdown.join('\n');

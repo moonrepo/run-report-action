@@ -69,3 +69,21 @@ exports[`formatReportToMarkdown() renders errors 1`] = `
 | 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s 380.2ms | passed |  |
 | | | 32m 2s | | |"
 `;
+
+exports[`formatReportToMarkdown() renders with git commit 1`] = `
+"### Run report
+|     | Action | Time | Status |    |
+| :-: | :----- | ---: | :----- | :- |
+| ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(types)\` | 3.2ms | skipped |  |
+| ⬛️ | \`InstallNodeDeps\` | 3.6ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
+| 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s 380.2ms | passed |  |
+| 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4s 431.2ms | passed |  |
+| | | 7s | | |
+
+<small>Run report for commit [59719f9](https://github.com/moonrepo/moon/pull/123/commits/59719f967ddcf585da9bc7ba8730dcd2865cbdfa)</small>"
+`;
