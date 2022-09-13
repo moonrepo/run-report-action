@@ -133,10 +133,11 @@ export function calculateTotalTime(report: RunReport): string {
 }
 
 export function formatReportToMarkdown(report: RunReport): string {
+	const commit = getCommitInfo();
 	const markdown = [
-		'### Run report',
-		'|     | Action | Time | Status |    |',
-		'| :-: | :----- | ---: | :----- | :- |',
+		commit ? `### Run report for [${commit.sha.slice(0, 7)}](${commit.url})` : '### Run report',
+		'|     | Action | Time | Status | Info |',
+		'| :-: | :----- | ---: | :----- | :--- |',
 	];
 
 	report.actions.forEach((action) => {
@@ -164,22 +165,18 @@ export function formatReportToMarkdown(report: RunReport): string {
 	markdown.push(`| | | ${calculateTotalTime(report)} | | |`);
 
 	if (report.context.touchedFiles.length > 0) {
-		markdown.push('', '### Touched files', '<details><summary>View files list</summary><div>\n');
-
-		report.context.touchedFiles.forEach((file) => {
-			markdown.push(`- ${file}`);
-		});
-
-		markdown.push('\n</div></details>');
-	}
-
-	const commit = getCommitInfo();
-
-	if (commit) {
 		markdown.push(
 			'',
-			`<small>Run report for commit [${commit.sha.slice(0, 7)}](${commit.url})</small>`,
+			'### Touched files',
+			'<details><summary>View files list</summary><div>\n',
+			'```',
 		);
+
+		report.context.touchedFiles.forEach((file) => {
+			markdown.push(`${file}`);
+		});
+
+		markdown.push('```', '\n</div></details>');
 	}
 
 	return markdown.join('\n');
