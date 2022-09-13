@@ -34,33 +34,12 @@ export function isFlaky(action: Action): boolean {
 	return hasPassed(action.status) && someAttemptsFailed;
 }
 
-export function formatDuration(duration: Duration | null): string {
-	if (!duration) {
-		return '--';
-	}
-
-	if (duration.secs === 0 && duration.nanos === 0) {
+export function formatTime(mins: number, secs: number, millis: number): string {
+	if (mins === 0 && secs === 0 && millis === 0) {
 		return '0s';
 	}
 
-	let millis = (duration.nanos / 1000000).toFixed(1);
-
-	if (millis.endsWith('.0')) {
-		millis = millis.slice(0, -2);
-	}
-
-	if (duration.secs === 0) {
-		return `${millis}ms`;
-	}
-
 	let value: string[] = [];
-	let mins = 0;
-	let secs = duration.secs;
-
-	while (secs > 60) {
-		mins += 1;
-		secs -= 60;
-	}
 
 	if (mins > 0) {
 		value.push(`${mins}m`);
@@ -70,9 +49,63 @@ export function formatDuration(duration: Duration | null): string {
 		value.push(`${secs}s`);
 	}
 
-	value.push(`${millis}ms`);
+	if (millis > 0) {
+		let ms = millis.toFixed(1);
 
-	return value.join(', ');
+		if (ms.endsWith('.0')) {
+			ms = ms.slice(0, -2);
+		}
+
+		value.push(`${ms}ms`);
+	}
+
+	return value.join(' ');
+}
+
+export function formatDuration(duration: Duration | null): string {
+	if (!duration) {
+		return '--';
+	}
+
+	if (duration.secs === 0 && duration.nanos === 0) {
+		return '0s';
+	}
+
+	let mins = 0;
+	let secs = duration.secs;
+	let millis = duration.nanos / 1000000;
+
+	while (secs > 60) {
+		mins += 1;
+		secs -= 60;
+	}
+
+	return formatTime(mins, secs, millis);
+}
+
+export function calculateTotalTime(report: RunReport): string {
+	let mins = 0;
+	let secs = 0;
+	let millis = 0;
+
+	report.actions.forEach((action) => {
+		if (action.duration) {
+			secs += action.duration.secs;
+			millis += action.duration.nanos / 1000000;
+		}
+	});
+
+	while (millis > 1000) {
+		secs += 1;
+		millis -= 1000;
+	}
+
+	while (secs > 60) {
+		mins += 1;
+		secs -= 60;
+	}
+
+	return formatTime(mins, secs, 0);
 }
 
 export function formatReportToMarkdown(report: RunReport): string {
@@ -103,6 +136,8 @@ export function formatReportToMarkdown(report: RunReport): string {
 			)} | ${action.status} | ${comments.join(', ')} |`,
 		);
 	});
+
+	markdown.push(`| | | ${calculateTotalTime(report)} | | |`);
 
 	if (report.context.touchedFiles.length > 0) {
 		markdown.push('', '### Touched files', '<details><summary>View files list</summary><div>\n');
