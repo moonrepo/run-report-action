@@ -1,6 +1,0 @@
-build/
-coverage/
-node_modules/
-*.min.js
-*.map
-*.snap
