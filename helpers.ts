@@ -39,6 +39,10 @@ export function formatDuration(duration: Duration | null): string {
 		return '--';
 	}
 
+	if (duration.secs === 0 && duration.nanos === 0) {
+		return '0s';
+	}
+
 	let millis = (duration.nanos / 1000000).toFixed(1);
 
 	if (millis.endsWith('.0')) {
@@ -101,13 +105,13 @@ export function formatReportToMarkdown(report: RunReport): string {
 	});
 
 	if (report.context.touchedFiles.length > 0) {
-		markdown.push('\n', '### Touched files', '<details><summary>View files list</summary><div>');
+		markdown.push('', '### Touched files', '<details><summary>View files list</summary><div>\n');
 
 		report.context.touchedFiles.forEach((file) => {
 			markdown.push(`- ${file}`);
 		});
 
-		markdown.push('</div></details>');
+		markdown.push('\n</div></details>');
 	}
 
 	return markdown.join('\n');

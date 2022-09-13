@@ -14,3 +14,53 @@ exports[`formatReportToMarkdown() renders a standard report 1`] = `
 | 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
 | 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |"
 `;
+
+exports[`formatReportToMarkdown() renders a standard report with touched files 1`] = `
+"### Run report
+|     | Action | Time | Status |    |
+| :-: | :----- | ---: | :----- | :- |
+| ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(types)\` | 3.2ms | skipped |  |
+| ⬛️ | \`InstallNodeDeps\` | 3.6ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
+| 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
+
+### Touched files
+<details><summary>View files list</summary><div>
+
+- packages/example/src/index.ts
+- apps/web/src/index.tsx
+
+</div></details>"
+`;
+
+exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
+"### Run report
+|     | Action | Time | Status |    |
+| :-: | :----- | ---: | :----- | :- |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed | **FLAKY**, 3 attempts |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed | 2 attempts |
+| 🟥 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | failed | 3 attempts |"
+`;
+
+exports[`formatReportToMarkdown() renders durations 1`] = `
+"### Run report
+|     | Action | Time | Status |    |
+| :-: | :----- | ---: | :----- | :- |
+| 🟪 | \`RunTarget(types:build)\` | 0s | cached |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m, 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(types:typecheck)\` | 1m, 4s, 571.6ms | passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 34s, 431.2ms | passed |  |"
+`;
+
+exports[`formatReportToMarkdown() renders errors 1`] = `
+"### Run report
+|     | Action | Time | Status |    |
+| :-: | :----- | ---: | :----- | :- |
+| 🟥 | \`RunTarget(types:build)\` | 0s | failed | Something weird has happened |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m, 2s, 380.2ms | passed |  |"
+`;
