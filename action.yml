@@ -2,6 +2,9 @@ name: 'moon - CI run reports'
 author: 'Miles Johnson'
 description: 'Reports the run results of `moon ci` to a pull request.'
 inputs:
+  access-token:
+    description: 'GitHub access token to post comments.'
+    required: true
   sort-by:
     description: 'Field to sort actions by. Accepts "time" or "label".'
     default: ''
@@ -11,6 +14,9 @@ inputs:
   workspace-root:
     description: 'Root of the moon workspace. Defaults to working directory.'
     default: ''
+outputs:
+  comment-created:
+    description: 'Whether or not the comment was created on the pull request.'
 runs:
   using: 'node16'
   main: 'dist/index.js'

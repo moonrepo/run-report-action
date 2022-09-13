@@ -1,8 +1,15 @@
 import * as core from '@actions/core';
+import * as github from '@actions/github';
 import type { Action, ActionStatus, Duration, RunReport } from '@moonrepo/types';
 
+export const COMMENT_TOKEN = '<!-- moon-run-report -->';
+
 export function getCommitInfo() {
-	const sha = process.env.GITHUB_SHA;
+	const {
+		payload: { pull_request: pr },
+		sha,
+	} = github.context;
+
 	const server = process.env.GITHUB_SERVER_URL ?? 'https://github.com';
 	const repo = process.env.GITHUB_REPOSITORY;
 
@@ -10,12 +17,10 @@ export function getCommitInfo() {
 		return null;
 	}
 
-	const pr = /refs\/pull\/(\d+)\//g.exec(process.env.GITHUB_REF!);
-
-	if (pr?.[1]) {
+	if (pr) {
 		return {
 			sha,
-			url: `${server}/${repo}/pull/${pr[1]}/commits/${sha}`,
+			url: `${server}/${repo}/pull/${pr.number}/commits/${sha}`,
 		};
 	}
 
@@ -29,6 +34,8 @@ export function getIconForStatus(status: ActionStatus): string {
 	switch (status) {
 		case 'cached':
 			return '🟪';
+		// case 'cached-remote':
+		// 	return '🟦';
 		case 'failed':
 		case 'failed-and-abort':
 			return '🟥';
@@ -54,9 +61,7 @@ export function isFlaky(action: Action): boolean {
 		return false;
 	}
 
-	const someAttemptsFailed = action.attempts.some((attempt) => hasFailed(attempt.status));
-
-	return hasPassed(action.status) && someAttemptsFailed;
+	return hasPassed(action.status) && action.attempts.some((attempt) => hasFailed(attempt.status));
 }
 
 export function formatTime(mins: number, secs: number, millis: number): string {
@@ -136,7 +141,8 @@ export function calculateTotalTime(report: RunReport): string {
 export function formatReportToMarkdown(report: RunReport): string {
 	const commit = getCommitInfo();
 	const markdown = [
-		commit ? `### Run report for [${commit.sha.slice(0, 7)}](${commit.url})` : '### Run report',
+		COMMENT_TOKEN,
+		commit ? `### Run report for [${commit.sha.slice(0, 8)}](${commit.url})` : '### Run report',
 		'|     | Action | Time | Status | Info |',
 		'| :-: | :----- | ---: | :----- | :--- |',
 	];

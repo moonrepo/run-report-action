@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`formatReportToMarkdown() renders a standard report 1`] = `
-"### Run report
+"<!-- moon-run-report -->
+### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
@@ -17,7 +18,8 @@ exports[`formatReportToMarkdown() renders a standard report 1`] = `
 `;
 
 exports[`formatReportToMarkdown() renders a standard report with touched files 1`] = `
-"### Run report
+"<!-- moon-run-report -->
+### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
@@ -43,7 +45,8 @@ apps/web/src/index.tsx
 `;
 
 exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
-"### Run report
+"<!-- moon-run-report -->
+### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed | **FLAKY**, 3 attempts |
@@ -53,7 +56,8 @@ exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 `;
 
 exports[`formatReportToMarkdown() renders durations 1`] = `
-"### Run report
+"<!-- moon-run-report -->
+### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟪 | \`RunTarget(types:build)\` | 0s | cached |  |
@@ -64,7 +68,8 @@ exports[`formatReportToMarkdown() renders durations 1`] = `
 `;
 
 exports[`formatReportToMarkdown() renders errors 1`] = `
-"### Run report
+"<!-- moon-run-report -->
+### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟥 | \`RunTarget(types:build)\` | 0s | failed | Something weird has happened |
@@ -73,7 +78,8 @@ exports[`formatReportToMarkdown() renders errors 1`] = `
 `;
 
 exports[`formatReportToMarkdown() renders with git commit 1`] = `
-"### Run report for [59719f9](https://github.com/moonrepo/moon/pull/123/commits/59719f967ddcf585da9bc7ba8730dcd2865cbdfa)
+"<!-- moon-run-report -->
+### Run report for [59719f96](https://github.com/moonrepo/moon/pull/123/commits/59719f967ddcf585da9bc7ba8730dcd2865cbdfa)
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
@@ -89,7 +95,8 @@ exports[`formatReportToMarkdown() renders with git commit 1`] = `
 `;
 
 exports[`sortReport() sorts by label 1`] = `
-"### Run report
+"<!-- moon-run-report -->
+### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | ⬛️ | \`InstallNodeDeps\` | 3.6ms | skipped |  |
@@ -105,7 +112,8 @@ exports[`sortReport() sorts by label 1`] = `
 `;
 
 exports[`sortReport() sorts by time 1`] = `
-"### Run report
+"<!-- moon-run-report -->
+### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |

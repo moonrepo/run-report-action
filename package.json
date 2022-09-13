@@ -5,6 +5,7 @@
   "main": "dist/index.mjs",
   "scripts": {
     "build": "ncc build ./index.mjs",
+    "check": "npm run lint && npm run test && npm run typecheck",
     "deps": "npx npm-check-updates --interactive",
     "lint": "eslint --ext .ts,.js --fix .",
     "test": "jest .",
@@ -18,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.1",
+    "@actions/github": "^5.0.3",
     "@moonrepo/types": "^0.0.1"
   },
   "devDependencies": {
