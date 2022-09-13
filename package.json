@@ -1,10 +1,10 @@
 {
   "name": "@moonrepo/run-report-action",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A GitHub action for displaying a run report within a pull request. ",
-  "main": "dist/index.mjs",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build ./index.mjs",
+    "build": "ncc build ./index.ts",
     "check": "npm run lint && npm run test && npm run typecheck",
     "deps": "npx npm-check-updates --interactive",
     "lint": "eslint --ext .ts,.js --fix .",
