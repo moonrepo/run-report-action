@@ -10,7 +10,11 @@ function loadReport(workspaceRoot: string): RunReport | null {
 	for (const fileName in ['ciReport.json', 'runReport.json']) {
 		const reportPath = path.join(workspaceRoot, '.moon/cache', fileName);
 
+		core.debug(`Finding run report at ${reportPath}`);
+
 		if (fs.existsSync(reportPath)) {
+			core.debug('Found!');
+
 			return JSON.parse(fs.readFileSync(reportPath, 'utf8')) as RunReport;
 		}
 	}
@@ -56,12 +60,16 @@ async function saveComment(accessToken: string, commentBody: string) {
 			issue_number: id,
 		});
 	}
+
+	core.debug(`Comment body:\n\n${commentBody}`);
 }
 
 async function run() {
 	try {
 		const accessToken = core.getInput('access-token');
 		const workspaceRoot = core.getInput('workspace-root') || process.cwd();
+
+		core.debug(`Using workspace root ${workspaceRoot}`);
 
 		if (!accessToken) {
 			throw new Error('An `access-token` input is required.');
@@ -70,8 +78,7 @@ async function run() {
 		const report = loadReport(workspaceRoot);
 
 		if (!report) {
-			core.info('Run report does not exist, has `moon ci` ran?');
-			return;
+			throw new Error('Run report does not exist, has `moon ci` ran?');
 		}
 
 		// Sort the actions in the report
