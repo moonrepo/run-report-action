@@ -71,8 +71,6 @@ async function saveSummary(markdown: string) {
 }
 
 async function run() {
-	console.log(github.context);
-
 	try {
 		const accessToken = core.getInput('access-token');
 		const workspaceRoot =

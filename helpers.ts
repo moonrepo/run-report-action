@@ -3,7 +3,7 @@ import * as github from '@actions/github';
 import type { Action, ActionStatus, Duration, RunReport } from '@moonrepo/types';
 
 export function getCommentToken() {
-	return `<!-- moon-run-report: ${github.context.action ?? 'unknown'} -->`;
+	return `<!-- moon-run-report: ${core.getInput('matrix') || 'unknown'} -->`;
 }
 
 export function getCommitInfo() {
@@ -35,6 +35,24 @@ export function getIconForStatus(status: ActionStatus): string {
 		default:
 			return '⬛️';
 	}
+}
+
+export function getMoonEnvVars() {
+	const env: Record<string, string> = {};
+	let count = 0;
+
+	Object.entries(process.env).forEach(([key, value]) => {
+		if (key.startsWith('MOON_') && value) {
+			env[key] = value;
+			count += 1;
+		}
+	});
+
+	if (count === 0) {
+		return null;
+	}
+
+	return env;
 }
 
 export function hasFailed(status: ActionStatus): boolean {
@@ -136,6 +154,8 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 		'| :-: | :----- | ---: | :----- | :--- |',
 	];
 
+	// ACTIONS
+
 	report.actions.forEach((action) => {
 		const comments: string[] = [];
 
@@ -159,6 +179,29 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 	});
 
 	markdown.push(`| | | ${calculateTotalTime(report)} | | |`);
+
+	// ENVIRONMENT
+
+	const matrix = core.getInput('matrix');
+	const envVars = getMoonEnvVars();
+
+	if (matrix || envVars) {
+		markdown.push('', '### Environment', `**OS:** ${process.env.RUNNER_OS}`);
+
+		if (matrix) {
+			markdown.push(`**Matrix:** ${matrix}`);
+		}
+
+		if (envVars) {
+			markdown.push(`**Variables:**`);
+
+			Object.entries(envVars).forEach(([key, value]) => {
+				markdown.push(`- ${key}=${value}`);
+			});
+		}
+	}
+
+	// TOUCHED FILES
 
 	if (report.context.touchedFiles.length > 0) {
 		markdown.push(
