@@ -1,8 +1,8 @@
-import type { RunReport, Duration, Action, ActionStatus } from '@moonrepo/types';
+import type { Action, ActionStatus, Duration, RunReport } from '@moonrepo/types';
 
 export function getCommitInfo() {
 	const sha = process.env.GITHUB_SHA;
-	const server = process.env.GITHUB_SERVER_URL || 'https://github.com';
+	const server = process.env.GITHUB_SERVER_URL ?? 'https://github.com';
 	const repo = process.env.GITHUB_REPOSITORY;
 
 	if (!sha || !repo) {
@@ -63,7 +63,7 @@ export function formatTime(mins: number, secs: number, millis: number): string {
 		return '0s';
 	}
 
-	let value: string[] = [];
+	const value: string[] = [];
 
 	if (mins > 0) {
 		value.push(`${mins}m`);
@@ -83,7 +83,7 @@ export function formatTime(mins: number, secs: number, millis: number): string {
 		value.push(`${ms}ms`);
 	}
 
-	return value.join(' ');
+	return value.join(', ');
 }
 
 export function formatDuration(duration: Duration | null): string {
@@ -96,8 +96,8 @@ export function formatDuration(duration: Duration | null): string {
 	}
 
 	let mins = 0;
-	let secs = duration.secs;
-	let millis = duration.nanos / 1000000;
+	let { secs } = duration;
+	const millis = duration.nanos / 1_000_000;
 
 	while (secs > 60) {
 		mins += 1;
@@ -115,7 +115,7 @@ export function calculateTotalTime(report: RunReport): string {
 	report.actions.forEach((action) => {
 		if (action.duration) {
 			secs += action.duration.secs;
-			millis += action.duration.nanos / 1000000;
+			millis += action.duration.nanos / 1_000_000;
 		}
 	});
 
@@ -133,14 +133,14 @@ export function calculateTotalTime(report: RunReport): string {
 }
 
 export function formatReportToMarkdown(report: RunReport): string {
-	let markdown = [
+	const markdown = [
 		'### Run report',
 		'|     | Action | Time | Status |    |',
 		'| :-: | :----- | ---: | :----- | :- |',
 	];
 
 	report.actions.forEach((action) => {
-		let comments: string[] = [];
+		const comments: string[] = [];
 
 		if (isFlaky(action)) {
 			comments.push('**FLAKY**');
