@@ -164,11 +164,7 @@ export function createCodeBlock(map: Record<string, unknown> | string[]): string
 export function createDetailsSection(title: string, body: string[]): string[] {
 	return [
 		'',
-		'<details><summary>',
-		'',
-		`### ${title}`,
-		'',
-		'</summary><div>',
+		`<details><summary><strong>${title}</strong></summary><div>`,
 		'',
 		...body,
 		'',

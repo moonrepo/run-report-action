@@ -35,11 +35,7 @@ exports[`formatReportToMarkdown() renders a standard report with touched files 1
 | 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
 | | | 7s | | |
 
-<details><summary>
-
-### Touched files
-
-</summary><div>
+<details><summary><strong>Touched files</strong></summary><div>
 
 \`\`\`
 apps/web/src/index.tsx
@@ -120,11 +116,7 @@ exports[`formatReportToMarkdown() renders with matrix data 1`] = `
 | 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
 | | | 7s | | |
 
-<details><summary>
-
-### Environment
-
-</summary><div>
+<details><summary><strong>Environment</strong></summary><div>
 
 **OS:** unknown
 **Matrix:**
