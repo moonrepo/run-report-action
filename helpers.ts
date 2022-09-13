@@ -168,7 +168,7 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 			'```',
 		);
 
-		report.context.touchedFiles.forEach((file) => {
+		report.context.touchedFiles.sort().forEach((file) => {
 			markdown.push(`${file.replace(root, '')}`);
 		});
 

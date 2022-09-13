@@ -103,7 +103,7 @@ async function run() {
 
 		// Create the comment
 		await saveComment(accessToken, markdown);
-		saveSummary(markdown);
+		await saveSummary(markdown);
 
 		core.setOutput('comment-created', 'true');
 	} catch (error: unknown) {

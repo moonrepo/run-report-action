@@ -37,8 +37,8 @@ exports[`formatReportToMarkdown() renders a standard report with touched files 1
 <details><summary>View files list</summary><div>
 
 \`\`\`
-packages/example/src/index.ts
 apps/web/src/index.tsx
+packages/example/src/index.ts
 \`\`\`
 
 </div></details>"
