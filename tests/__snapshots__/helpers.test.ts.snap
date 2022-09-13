@@ -2,6 +2,7 @@
 
 exports[`formatReportToMarkdown() renders a standard report 1`] = `
 "<!-- moon-run-report: unknown -->
+
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -19,6 +20,7 @@ exports[`formatReportToMarkdown() renders a standard report 1`] = `
 
 exports[`formatReportToMarkdown() renders a standard report with touched files 1`] = `
 "<!-- moon-run-report: unknown -->
+
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -33,8 +35,11 @@ exports[`formatReportToMarkdown() renders a standard report with touched files 1
 | 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
 | | | 7s | | |
 
+<details><summary>
+
 ### Touched files
-<details><summary>View files list</summary><div>
+
+</summary><div>
 
 \`\`\`
 apps/web/src/index.tsx
@@ -46,6 +51,7 @@ packages/example/src/index.ts
 
 exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 "<!-- moon-run-report: unknown -->
+
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -57,6 +63,7 @@ exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 
 exports[`formatReportToMarkdown() renders durations 1`] = `
 "<!-- moon-run-report: unknown -->
+
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -69,6 +76,7 @@ exports[`formatReportToMarkdown() renders durations 1`] = `
 
 exports[`formatReportToMarkdown() renders errors 1`] = `
 "<!-- moon-run-report: unknown -->
+
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -79,6 +87,7 @@ exports[`formatReportToMarkdown() renders errors 1`] = `
 
 exports[`formatReportToMarkdown() renders with git commit 1`] = `
 "<!-- moon-run-report: unknown -->
+
 ### Run report for [59719f96](https://github.com/moonrepo/moon/commit/59719f967ddcf585da9bc7ba8730dcd2865cbdfa)
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -94,8 +103,42 @@ exports[`formatReportToMarkdown() renders with git commit 1`] = `
 | | | 7s | | |"
 `;
 
+exports[`formatReportToMarkdown() renders with matrix data 1`] = `
+"<!-- moon-run-report: {"os":"ubuntu-latest","node-version":16} -->
+
+### Run report \`(ubuntu-latest, 16)\`
+|     | Action | Time | Status | Info |
+| :-: | :----- | ---: | :----- | :--- |
+| ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(types)\` | 3.2ms | skipped |  |
+| ⬛️ | \`InstallNodeDeps\` | 3.6ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
+| ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
+| 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
+| | | 7s | | |
+
+<details><summary>
+
+### Environment
+
+</summary><div>
+
+**OS:** unknown
+**Matrix:**
+\`\`\`
+os = ubuntu-latest
+node-version = 16
+\`\`\`
+
+</div></details>"
+`;
+
 exports[`sortReport() sorts by label 1`] = `
 "<!-- moon-run-report: unknown -->
+
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
@@ -113,6 +156,7 @@ exports[`sortReport() sorts by label 1`] = `
 
 exports[`sortReport() sorts by time 1`] = `
 "<!-- moon-run-report: unknown -->
+
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |

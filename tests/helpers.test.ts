@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import * as github from '@actions/github';
 import type { RunReport } from '@moonrepo/types';
 import { formatReportToMarkdown, sortReport } from '../helpers';
@@ -47,6 +48,16 @@ describe('formatReportToMarkdown()', () => {
 
 		// @ts-expect-error Allow override
 		delete github.context.sha;
+	});
+
+	it('renders with matrix data', () => {
+		const spy = jest
+			.spyOn(core, 'getInput')
+			.mockImplementation(() => JSON.stringify({ os: 'ubuntu-latest', 'node-version': 16 }));
+
+		expect(formatReportToMarkdown(require('./__fixtures__/standard.json'))).toMatchSnapshot();
+
+		spy.mockRestore();
 	});
 });
 

@@ -145,14 +145,53 @@ export function calculateTotalTime(report: RunReport): string {
 	return formatTime(mins, secs, 0);
 }
 
+export function createCodeBlock(map: Record<string, unknown> | string[]): string[] {
+	const code = ['```'];
+
+	if (Array.isArray(map)) {
+		code.push(...map);
+	} else {
+		Object.entries(map).forEach(([key, value]) => {
+			code.push(`${key} = ${value}`);
+		});
+	}
+
+	code.push('```');
+
+	return code;
+}
+
+export function createDetailsSection(title: string, body: string[]): string[] {
+	return [
+		'',
+		'<details><summary>',
+		'',
+		`### ${title}`,
+		'',
+		'</summary><div>',
+		'',
+		...body,
+		'',
+		'</div></details>',
+	];
+}
+
 export function formatReportToMarkdown(report: RunReport, root: string = ''): string {
 	const commit = getCommitInfo();
+	const matrix = core.getInput('matrix');
+	const matrixData = matrix ? (JSON.parse(matrix) as Record<string, unknown>) : null;
+
 	const markdown = [
 		getCommentToken(),
+		'',
 		commit ? `### Run report for [${commit.sha.slice(0, 8)}](${commit.url})` : '### Run report',
 		'|     | Action | Time | Status | Info |',
 		'| :-: | :----- | ---: | :----- | :--- |',
 	];
+
+	if (matrixData) {
+		markdown[2] += ` \`(${Object.values(matrixData).join(', ')})\``;
+	}
 
 	// ACTIONS
 
@@ -182,40 +221,33 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 
 	// ENVIRONMENT
 
-	const matrix = core.getInput('matrix');
 	const envVars = getMoonEnvVars();
 
-	if (matrix || envVars) {
-		markdown.push('', '### Environment', `**OS:** ${process.env.RUNNER_OS}`);
+	if (matrixData || envVars) {
+		const section = [`**OS:** ${process.env.RUNNER_OS ?? 'unknown'}`];
 
-		if (matrix) {
-			markdown.push(`**Matrix:** ${matrix}`);
+		if (matrixData) {
+			section.push('**Matrix:**', ...createCodeBlock(matrixData));
 		}
 
 		if (envVars) {
-			markdown.push(`**Variables:**`);
-
-			Object.entries(envVars).forEach(([key, value]) => {
-				markdown.push(`- ${key}=${value}`);
-			});
+			section.push('**Variables:**', ...createCodeBlock(envVars));
 		}
+
+		markdown.push(...createDetailsSection('Environment', section));
 	}
 
 	// TOUCHED FILES
 
-	if (report.context.touchedFiles.length > 0) {
+	const { touchedFiles } = report.context;
+
+	if (touchedFiles.length > 0) {
 		markdown.push(
-			'',
-			'### Touched files',
-			'<details><summary>View files list</summary><div>\n',
-			'```',
+			...createDetailsSection(
+				'Touched files',
+				createCodeBlock(touchedFiles.map((file) => `${file.replace(root, '')}`).sort()),
+			),
 		);
-
-		report.context.touchedFiles.sort().forEach((file) => {
-			markdown.push(`${file.replace(root, '')}`);
-		});
-
-		markdown.push('```', '\n</div></details>');
 	}
 
 	return markdown.join('\n');
