@@ -12,10 +12,10 @@ exports[`formatReportToMarkdown() renders a standard report 1`] = `
 | ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
 | ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
 | 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | passed |  |
 | 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
-| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
-| | | 7s | | |"
+| 🟩 | \`RunTarget(website:typecheck)\` | 4.4s | passed |  |
+| | | **7s** | | |"
 `;
 
 exports[`formatReportToMarkdown() renders a standard report with touched files 1`] = `
@@ -30,10 +30,10 @@ exports[`formatReportToMarkdown() renders a standard report with touched files 1
 | ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
 | ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
 | 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | passed |  |
 | 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
-| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
-| | | 7s | | |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4.4s | passed |  |
+| | | **7s** | | |
 
 <details><summary><strong>Touched files</strong></summary><div>
 
@@ -51,10 +51,10 @@ exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed | **FLAKY**, 3 attempts |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed | 2 attempts |
-| 🟥 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | failed | 3 attempts |
-| | | 7s | | |"
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | passed | **FLAKY**, 3 attempts |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | passed | 2 attempts |
+| 🟥 | \`RunTarget(runtime:typecheck)\` | 2.4s | failed | 3 attempts |
+| | | **7s** | | |"
 `;
 
 exports[`formatReportToMarkdown() renders durations 1`] = `
@@ -64,10 +64,10 @@ exports[`formatReportToMarkdown() renders durations 1`] = `
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟪 | \`RunTarget(types:build)\` | 0s | cached |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m, 2s, 380.2ms | passed |  |
-| 🟩 | \`RunTarget(types:typecheck)\` | 1m, 4s, 571.6ms | passed |  |
-| 🟩 | \`RunTarget(website:typecheck)\` | 34s, 431.2ms | passed |  |
-| | | 33m, 41s | | |"
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | passed |  |
+| 🟩 | \`RunTarget(types:typecheck)\` | 1m 4s | passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 34.4s | passed |  |
+| | | **33m 41s** | | |"
 `;
 
 exports[`formatReportToMarkdown() renders errors 1`] = `
@@ -77,8 +77,8 @@ exports[`formatReportToMarkdown() renders errors 1`] = `
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟥 | \`RunTarget(types:build)\` | 0s | failed | Something weird has happened |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m, 2s, 380.2ms | passed |  |
-| | | 32m, 2s | | |"
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | passed |  |
+| | | **32m 2s** | | |"
 `;
 
 exports[`formatReportToMarkdown() renders with git commit 1`] = `
@@ -93,10 +93,10 @@ exports[`formatReportToMarkdown() renders with git commit 1`] = `
 | ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
 | ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
 | 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | passed |  |
 | 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
-| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
-| | | 7s | | |"
+| 🟩 | \`RunTarget(website:typecheck)\` | 4.4s | passed |  |
+| | | **7s** | | |"
 `;
 
 exports[`formatReportToMarkdown() renders with matrix data 1`] = `
@@ -111,10 +111,10 @@ exports[`formatReportToMarkdown() renders with matrix data 1`] = `
 | ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
 | ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
 | 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | passed |  |
 | 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
-| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
-| | | 7s | | |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4.4s | passed |  |
+| | | **7s** | | |
 
 <details><summary><strong>Environment</strong></summary><div>
 
@@ -135,15 +135,15 @@ exports[`sortReport() sorts by label 1`] = `
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | ⬛️ | \`InstallNodeDeps\` | 3.6ms | skipped |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | passed |  |
 | 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
 | 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
-| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4.4s | passed |  |
 | ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
 | ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | skipped |  |
 | ⬛️ | \`SyncNodeProject(types)\` | 3.2ms | skipped |  |
 | ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
-| | | 7s | | |"
+| | | **7s** | | |"
 `;
 
 exports[`sortReport() sorts by time 1`] = `
@@ -152,8 +152,8 @@ exports[`sortReport() sorts by time 1`] = `
 ### Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
-| 🟩 | \`RunTarget(website:typecheck)\` | 4s, 431.2ms | passed |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2s, 380.2ms | passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4.4s | passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | passed |  |
 | 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | passed |  |
 | 🟪 | \`RunTarget(types:build)\` | 310.2ms | cached |  |
 | ⬛️ | \`SyncNodeProject(website)\` | 4ms | skipped |  |
@@ -161,5 +161,5 @@ exports[`sortReport() sorts by time 1`] = `
 | ⬛️ | \`InstallNodeDeps\` | 3.6ms | skipped |  |
 | ⬛️ | \`SyncNodeProject(types)\` | 3.2ms | skipped |  |
 | ⬛️ | \`SetupNodeToolchain\` | 1.4ms | skipped |  |
-| | | 7s | | |"
+| | | **7s** | | |"
 `;

@@ -76,27 +76,39 @@ export function formatTime(mins: number, secs: number, millis: number): string {
 		return '0s';
 	}
 
-	const value: string[] = [];
+	const format = (val: number) => {
+		let v = val.toFixed(1);
 
-	if (mins > 0) {
-		value.push(`${mins}m`);
-	}
-
-	if (secs > 0) {
-		value.push(`${secs}s`);
-	}
-
-	if (millis > 0) {
-		let ms = millis.toFixed(1);
-
-		if (ms.endsWith('.0')) {
-			ms = ms.slice(0, -2);
+		if (v.endsWith('.0')) {
+			v = v.slice(0, -2);
 		}
 
-		value.push(`${ms}ms`);
+		return v;
+	};
+
+	// When minutes, only show mins + secs
+	if (mins > 0) {
+		let value = `${mins}m`;
+
+		if (secs > 0) {
+			value += ` ${secs}s`;
+		}
+
+		return value;
 	}
 
-	return value.join(', ');
+	// When seconds, only show secs + first milli digit
+	if (secs > 0) {
+		return `${format((secs * 1000 + millis) / 1000)}s`;
+	}
+
+	// When millis, show as is
+	if (millis > 0) {
+		return `${format(millis)}ms`;
+	}
+
+	// How did we get here?
+	return '0s';
 }
 
 export function formatDuration(duration: Duration | null): string {
@@ -213,7 +225,7 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 		);
 	});
 
-	markdown.push(`| | | ${calculateTotalTime(report)} | | |`);
+	markdown.push(`| | | **${calculateTotalTime(report)}** | | |`);
 
 	// ENVIRONMENT
 
