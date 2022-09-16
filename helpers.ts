@@ -214,10 +214,6 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 			comments.push(`${action.attempts.length} attempts`);
 		}
 
-		if (hasFailed(action.status) && action.error) {
-			comments.push(action.error);
-		}
-
 		markdown.push(
 			`| ${getIconForStatus(action.status)} | \`${action.label}\` | ${formatDuration(
 				action.duration,
@@ -225,7 +221,7 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 		);
 	});
 
-	markdown.push(`| | | **${calculateTotalTime(report)}** | | |`);
+	// markdown.push(`| | | **${calculateTotalTime(report)}** | | |`);
 
 	// ENVIRONMENT
 
