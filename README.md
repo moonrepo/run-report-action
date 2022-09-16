@@ -21,6 +21,7 @@ jobs:
       # ...
       - run: moon ci
       - uses: moonrepo/run-report-action@v1
+        if: success() || failure()
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -42,6 +43,7 @@ jobs:
       # ...
       - run: moon ci
       - uses: moonrepo/run-report-action@v1
+        if: success() || failure()
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
           matrix: ${{ toJSON(matrix) }}
@@ -67,18 +69,17 @@ An example of the report looks like the following:
 
 ### Run report `(ubuntu-latest, 18)`
 
-|     | Action                         |       Time | Status  | Info |
-| :-: | :----------------------------- | ---------: | :------ | :--- |
-| 🟩  | `SetupNodeToolchain`           |       7.2s | passed  |      |
-| ⬛️ | `SyncNodeProject(types)`       |      2.4ms | skipped |      |
-| ⬛️ | `SyncNodeProject(runtime)`     |      7.1ms | skipped |      |
-| 🟩  | `InstallNodeDeps`              |      18.7s | passed  |      |
-| 🟩  | `RunTarget(types:build)`       |       6.5s | passed  |      |
-| 🟩  | `RunTarget(runtime:build)`     |       6.8s | passed  |      |
-| ⬛️ | `SyncNodeProject(website)`     |      5.2ms | skipped |      |
-| 🟩  | `RunTarget(website:typecheck)` |      10.2s | passed  |      |
-| 🟩  | `RunTarget(website:format)`    |      11.9s | passed  |      |
-| 🟩  | `RunTarget(website:test)`      |       1.5s | passed  |      |
-| 🟩  | `RunTarget(website:build)`     |      1m 8s | passed  |      |
-| 🟩  | `RunTarget(website:lint)`      |      18.4s | passed  |      |
-|     |                                | **2m 30s** |         |      |
+|     | Action                         |  Time | Status  | Info |
+| :-: | :----------------------------- | ----: | :------ | :--- |
+| 🟩  | `SetupNodeToolchain`           |  7.2s | passed  |      |
+| ⬛️ | `SyncNodeProject(types)`       | 2.4ms | skipped |      |
+| ⬛️ | `SyncNodeProject(runtime)`     | 7.1ms | skipped |      |
+| 🟩  | `InstallNodeDeps`              | 18.7s | passed  |      |
+| 🟩  | `RunTarget(types:build)`       |  6.5s | passed  |      |
+| 🟩  | `RunTarget(runtime:build)`     |  6.8s | passed  |      |
+| ⬛️ | `SyncNodeProject(website)`     | 5.2ms | skipped |      |
+| 🟩  | `RunTarget(website:typecheck)` | 10.2s | passed  |      |
+| 🟩  | `RunTarget(website:format)`    | 11.9s | passed  |      |
+| 🟩  | `RunTarget(website:test)`      |  1.5s | passed  |      |
+| 🟩  | `RunTarget(website:build)`     | 1m 8s | passed  |      |
+| 🟩  | `RunTarget(website:lint)`      | 18.4s | passed  |      |
