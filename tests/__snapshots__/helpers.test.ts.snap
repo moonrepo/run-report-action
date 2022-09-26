@@ -112,7 +112,7 @@ exports[`formatReportToMarkdown() renders with matrix data 1`] = `
 
 <details><summary><strong>Environment</strong></summary><div>
 
-**OS:** unknown
+**OS:** Test
 **Matrix:**
 \`\`\`
 os = ubuntu-latest

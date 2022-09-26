@@ -192,6 +192,7 @@ export function formatTotalTime({
 	return parts.join(' | ');
 }
 
+// eslint-disable-next-line complexity
 export function formatReportToMarkdown(report: RunReport, root: string = ''): string {
 	const commit = getCommitInfo();
 	const matrix = core.getInput('matrix');
@@ -241,7 +242,9 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 	const envVars = getMoonEnvVars();
 
 	if (matrixData || envVars) {
-		const section = [`**OS:** ${process.env.RUNNER_OS ?? 'unknown'}`];
+		const section = [
+			`**OS:** ${process.env.NODE_ENV === 'test' ? 'Test' : process.env.RUNNER_OS ?? 'unknown'}`,
+		];
 
 		if (matrixData) {
 			section.push('**Matrix:**', ...createCodeBlock(matrixData));
