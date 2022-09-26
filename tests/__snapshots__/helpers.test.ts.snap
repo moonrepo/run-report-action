@@ -62,8 +62,8 @@ Total time: 371ms | Projected time: 1.4s | Estimated savings: 990.8ms (73% decre
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟪 | \`RunTarget(types:build)\` | 0s | cached |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | passed |  |
-| 🟩 | \`RunTarget(types:typecheck)\` | 1m 4s | passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | passed | **SLOW** |
+| 🟩 | \`RunTarget(types:typecheck)\` | 1m 4s | passed | **SLOW** |
 | 🟩 | \`RunTarget(website:typecheck)\` | 34.4s | passed |  |"
 `;
 
@@ -74,7 +74,7 @@ exports[`formatReportToMarkdown() renders errors 1`] = `
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟥 | \`RunTarget(types:build)\` | 0s | failed |  |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | passed |  |"
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | passed | **SLOW** |"
 `;
 
 exports[`formatReportToMarkdown() renders with git commit 1`] = `

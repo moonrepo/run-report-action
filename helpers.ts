@@ -19,6 +19,10 @@ export function getCommitInfo() {
 	};
 }
 
+export function getDurationInMillis(duration: Duration): number {
+	return duration.secs * 1000 + duration.nanos / 1_000_000;
+}
+
 export function getIconForStatus(status: ActionStatus): string {
 	switch (status) {
 		case 'cached':
@@ -69,6 +73,17 @@ export function isFlaky(action: Action): boolean {
 	}
 
 	return hasPassed(action.status) && action.attempts.some((attempt) => hasFailed(attempt.status));
+}
+
+export function isSlow(action: Action, slowThreshold: number): boolean {
+	if (!action.duration) {
+		return false;
+	}
+
+	const millis = getDurationInMillis(action.duration);
+	const threshold = slowThreshold * 1000; // In seconds
+
+	return millis > threshold;
 }
 
 export function formatTime(mins: number, secs: number, millis: number): string {
@@ -133,8 +148,8 @@ export function formatDuration(duration: Duration | null): string {
 }
 
 export function calculateSavingsPercentage(projected: Duration, savings: Duration) {
-	const base = projected.secs * 1000 + projected.nanos / 1_000_000;
-	const diff = savings.secs * 1000 + savings.nanos / 1_000_000;
+	const base = getDurationInMillis(projected);
+	const diff = getDurationInMillis(savings);
 
 	return Math.round((diff / base) * 100);
 }
@@ -192,8 +207,16 @@ export function formatTotalTime({
 	return parts.join(' | ');
 }
 
+export interface FormatReportOptions {
+	slowThreshold: number;
+	workspaceRoot: string;
+}
+
 // eslint-disable-next-line complexity
-export function formatReportToMarkdown(report: RunReport, root: string = ''): string {
+export function formatReportToMarkdown(
+	report: RunReport,
+	{ slowThreshold, workspaceRoot }: FormatReportOptions,
+): string {
 	const commit = getCommitInfo();
 	const matrix = core.getInput('matrix');
 	const matrixData = matrix ? (JSON.parse(matrix) as Record<string, unknown>) : null;
@@ -228,6 +251,10 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 
 		if (action.attempts && action.attempts.length > 1) {
 			comments.push(`${action.attempts.length} attempts`);
+		}
+
+		if (isSlow(action, slowThreshold)) {
+			comments.push('**SLOW**');
 		}
 
 		markdown.push(
@@ -265,7 +292,7 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 		markdown.push(
 			...createDetailsSection(
 				'Touched files',
-				createCodeBlock(touchedFiles.map((file) => `${file.replace(root, '')}`).sort()),
+				createCodeBlock(touchedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
 			),
 		);
 	}

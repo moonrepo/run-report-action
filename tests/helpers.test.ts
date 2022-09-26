@@ -7,27 +7,40 @@ jest.mock('@actions/github', () => ({
 	context: { payload: {}, serverUrl: 'https://github.com' },
 }));
 
+const options = {
+	slowThreshold: 60,
+	workspaceRoot: '',
+};
+
 describe('formatReportToMarkdown()', () => {
 	it('renders a standard report', () => {
-		expect(formatReportToMarkdown(require('./__fixtures__/standard.json'))).toMatchSnapshot();
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/standard.json'), options),
+		).toMatchSnapshot();
 	});
 
 	it('renders a standard report with touched files', () => {
 		expect(
-			formatReportToMarkdown(require('./__fixtures__/standard-touched-files.json')),
+			formatReportToMarkdown(require('./__fixtures__/standard-touched-files.json'), options),
 		).toMatchSnapshot();
 	});
 
 	it('renders durations', () => {
-		expect(formatReportToMarkdown(require('./__fixtures__/durations.json'))).toMatchSnapshot();
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/durations.json'), options),
+		).toMatchSnapshot();
 	});
 
 	it('renders attempts and flakiness', () => {
-		expect(formatReportToMarkdown(require('./__fixtures__/flakiness.json'))).toMatchSnapshot();
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/flakiness.json'), options),
+		).toMatchSnapshot();
 	});
 
 	it('renders errors', () => {
-		expect(formatReportToMarkdown(require('./__fixtures__/errors.json'))).toMatchSnapshot();
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/errors.json'), options),
+		).toMatchSnapshot();
 	});
 
 	it('renders with git commit', () => {
@@ -44,7 +57,9 @@ describe('formatReportToMarkdown()', () => {
 			},
 		});
 
-		expect(formatReportToMarkdown(require('./__fixtures__/standard.json'))).toMatchSnapshot();
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/standard.json'), options),
+		).toMatchSnapshot();
 
 		// @ts-expect-error Allow override
 		delete github.context.sha;
@@ -55,7 +70,9 @@ describe('formatReportToMarkdown()', () => {
 			.spyOn(core, 'getInput')
 			.mockImplementation(() => JSON.stringify({ os: 'ubuntu-latest', 'node-version': 16 }));
 
-		expect(formatReportToMarkdown(require('./__fixtures__/standard.json'))).toMatchSnapshot();
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/standard.json'), options),
+		).toMatchSnapshot();
 
 		spy.mockRestore();
 	});
@@ -67,7 +84,7 @@ describe('sortReport()', () => {
 
 		sortReport(report, 'time', 'desc');
 
-		expect(formatReportToMarkdown(report)).toMatchSnapshot();
+		expect(formatReportToMarkdown(report, options)).toMatchSnapshot();
 	});
 
 	it('sorts by label', () => {
@@ -75,6 +92,6 @@ describe('sortReport()', () => {
 
 		sortReport(report, 'label', 'asc');
 
-		expect(formatReportToMarkdown(report)).toMatchSnapshot();
+		expect(formatReportToMarkdown(report, options)).toMatchSnapshot();
 	});
 });

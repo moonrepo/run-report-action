@@ -55,6 +55,8 @@ jobs:
   the pull request.
 - `matrix` (`string`) - The workflow's build matrix as a JSON string. This is required for
   differentiating builds/comments.
+- `slow-threshold` (`number`) - Number of seconds before an action is to be considered slow.
+  Defaults to 120 (2 minutes).
 - `sort-by` (`label | time`) - The field to sort the actions table on. If not defined (the default),
   will display in the action graph's topological order.
 - `sort-dir` (`asc | desc`) - The direction to sort the actions table.
@@ -65,8 +67,10 @@ jobs:
 
 - **Action** - The action/task that was ran in moon's runner via `moon ci`.
 - **Estimated savings/loss** - How much time was saved/lost by running tasks with moon.
+- **Flaky** - Action is flaky, as it failed but passed after retries.
 - **Info** - Additional information and metadata about the action.
 - **Projected time** - How long all the tasks would have taken to run when ran _outside_ of moon.
+- **Slow** - Action is slow and took too long to run, based on the threshold.
 - **Status** - Final status of the action after it ran.
 - **Time** - How long the action took to run.
 - **Total time** - How long all actions / the entire runner took to run.

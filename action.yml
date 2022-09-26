@@ -8,6 +8,9 @@ inputs:
   matrix:
     description: 'Metadata about the current job matrix in JSON.'
     default: ''
+  slow-threshold:
+    description: 'Number of seconds before an action is to be considered slow.'
+    default: 120
   sort-by:
     description: 'Field to sort actions by. Accepts "time" or "label".'
     default: ''
