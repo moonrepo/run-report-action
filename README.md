@@ -61,6 +61,18 @@ jobs:
 - `workspace-root` (`string`) - Root of the moon workspace (if running in a sub-directory). Defaults
   to working directory.
 
+## Terminology
+
+- **Action** - The action/task that was ran in moon's runner via `moon ci`.
+- **Estimated savings/loss** - How much time was saved/lost by running tasks with moon.
+- **Info** - Additional information and metadata about the action.
+- **Projected time** - How long all the tasks would have taken to run when ran _outside_ of moon.
+- **Status** - Final status of the action after it ran.
+- **Time** - How long the action took to run.
+- **Total time** - How long all actions / the entire runner took to run.
+- **Touched files** - Files that were created, modified, etc, between the current branch and the
+  base branch. Also used to determine affected projects and tasks.
+
 ## Example
 
 An example of the report looks like the following:

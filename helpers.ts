@@ -132,29 +132,11 @@ export function formatDuration(duration: Duration | null): string {
 	return formatTime(mins, secs, millis);
 }
 
-export function calculateTotalTime(report: RunReport): string {
-	let mins = 0;
-	let secs = 0;
-	let millis = 0;
+export function calculateSavingsPercentage(projected: Duration, savings: Duration) {
+	const base = projected.secs * 1000 + projected.nanos / 1_000_000;
+	const diff = savings.secs * 1000 + savings.nanos / 1_000_000;
 
-	report.actions.forEach((action) => {
-		if (action.duration) {
-			secs += action.duration.secs;
-			millis += action.duration.nanos / 1_000_000;
-		}
-	});
-
-	while (millis > 1000) {
-		secs += 1;
-		millis -= 1000;
-	}
-
-	while (secs > 60) {
-		mins += 1;
-		secs -= 60;
-	}
-
-	return formatTime(mins, secs, 0);
+	return Math.round((diff / base) * 100);
 }
 
 export function createCodeBlock(map: Record<string, unknown> | string[]): string[] {
@@ -184,6 +166,32 @@ export function createDetailsSection(title: string, body: string[]): string[] {
 	];
 }
 
+export function formatTotalTime({
+	duration,
+	projectedDuration,
+	estimatedSavings,
+}: RunReport): string {
+	const parts = [`Total time: ${formatDuration(duration)}`];
+
+	if (projectedDuration) {
+		parts.push(`Projected time: ${formatDuration(projectedDuration)}`);
+
+		if (estimatedSavings) {
+			const percent = calculateSavingsPercentage(projectedDuration, estimatedSavings);
+
+			if (percent > 0) {
+				parts.push(`Estimated savings: ${formatDuration(estimatedSavings)} (${percent}% decrease)`);
+			} else {
+				parts.push(
+					`Estimated loss: ${formatDuration(estimatedSavings)} (${Math.abs(percent)}% increase)`,
+				);
+			}
+		}
+	}
+
+	return parts.join(' | ');
+}
+
 export function formatReportToMarkdown(report: RunReport, root: string = ''): string {
 	const commit = getCommitInfo();
 	const matrix = core.getInput('matrix');
@@ -192,16 +200,23 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 	const markdown = [
 		getCommentToken(),
 		'',
-		commit ? `### Run report for [${commit.sha.slice(0, 8)}](${commit.url})` : '### Run report',
-		'|     | Action | Time | Status | Info |',
-		'| :-: | :----- | ---: | :----- | :--- |',
+		commit ? `## Run report for [${commit.sha.slice(0, 8)}](${commit.url})` : '## Run report',
 	];
 
 	if (matrixData) {
 		markdown[2] += ` \`(${Object.values(matrixData).join(', ')})\``;
 	}
 
+	if (report.duration) {
+		markdown.push(formatTotalTime(report));
+	}
+
 	// ACTIONS
+
+	markdown.push(
+		'|     | Action | Time | Status | Info |',
+		'| :-: | :----- | ---: | :----- | :--- |',
+	);
 
 	report.actions.forEach((action) => {
 		const comments: string[] = [];
@@ -220,8 +235,6 @@ export function formatReportToMarkdown(report: RunReport, root: string = ''): st
 			)} | ${action.status} | ${comments.join(', ')} |`,
 		);
 	});
-
-	// markdown.push(`| | | **${calculateTotalTime(report)}** | | |`);
 
 	// ENVIRONMENT
 

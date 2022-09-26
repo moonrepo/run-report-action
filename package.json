@@ -20,11 +20,11 @@
   "dependencies": {
     "@actions/core": "^1.9.1",
     "@actions/github": "^5.1.0",
-    "@moonrepo/types": "^0.0.2"
+    "@moonrepo/types": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
-    "@types/node": "^18.7.22",
+    "@types/node": "^18.7.23",
     "@vercel/ncc": "^0.34.0",
     "babel-preset-moon": "^1.0.2",
     "eslint": "^8.24.0",
