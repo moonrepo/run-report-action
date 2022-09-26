@@ -132,7 +132,7 @@ export function formatDuration(duration: Duration | null): string {
 	return formatTime(mins, secs, millis);
 }
 
-export function calculateSavingsReduction(projected: Duration, savings: Duration) {
+export function calculateSavingsPercentage(projected: Duration, savings: Duration) {
 	const base = projected.secs * 1000 + projected.nanos / 1_000_000;
 	const diff = savings.secs * 1000 + savings.nanos / 1_000_000;
 
@@ -166,26 +166,26 @@ export function createDetailsSection(title: string, body: string[]): string[] {
 	];
 }
 
-export function formatTotalTime(report: RunReport): string {
-	const parts = [`Total time: ${formatDuration(report.duration)}`];
+export function formatTotalTime({
+	duration,
+	projectedDuration,
+	estimatedSavings,
+}: RunReport): string {
+	const parts = [`Total time: ${formatDuration(duration)}`];
 
-	if (report.projectedDuration) {
-		parts.push(`Projected time: ${formatDuration(report.projectedDuration)}`);
-	}
+	if (projectedDuration) {
+		parts.push(`Projected time: ${formatDuration(projectedDuration)}`);
 
-	if (report.estimatedSavings) {
-		const percent = calculateSavingsReduction(report.projectedDuration, report.estimatedSavings);
+		if (estimatedSavings) {
+			const percent = calculateSavingsPercentage(projectedDuration, estimatedSavings);
 
-		if (percent > 0) {
-			parts.push(
-				`Estimated savings: ${formatDuration(report.estimatedSavings)} (${percent}% decrease)`,
-			);
-		} else {
-			parts.push(
-				`Estimated loss: ${formatDuration(report.estimatedSavings)} (${Math.abs(
-					percent,
-				)}% increase)`,
-			);
+			if (percent > 0) {
+				parts.push(`Estimated savings: ${formatDuration(estimatedSavings)} (${percent}% decrease)`);
+			} else {
+				parts.push(
+					`Estimated loss: ${formatDuration(estimatedSavings)} (${Math.abs(percent)}% increase)`,
+				);
+			}
 		}
 	}
 
