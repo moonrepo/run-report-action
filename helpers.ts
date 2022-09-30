@@ -139,7 +139,7 @@ export function formatDuration(duration: Duration | null): string {
 	let { secs } = duration;
 	const millis = duration.nanos / 1_000_000;
 
-	while (secs > 60) {
+	while (secs >= 60) {
 		mins += 1;
 		secs -= 60;
 	}
