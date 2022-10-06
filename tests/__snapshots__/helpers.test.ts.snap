@@ -77,6 +77,27 @@ exports[`formatReportToMarkdown() renders errors 1`] = `
 | 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | passed | **SLOW** |"
 `;
 
+exports[`formatReportToMarkdown() renders with a limit 1`] = `
+"<!-- moon-run-report: unknown -->
+
+## Run report
+Total time: 371ms | Projected time: 1.4s | Estimated savings: 990.8ms (73% decrease)
+|     | Action | Time | Status | Info |
+| :-: | :----- | ---: | :----- | :--- |
+| 🟪 | \`RunTarget(types:build)\` | 0s | cached |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | passed | **SLOW** |
+| 🟩 | \`RunTarget(types:typecheck)\` | 1m 4s | passed | **SLOW** |
+| | And 1 more... | | | |
+
+<details><summary><strong>Expanded report</strong></summary><div>
+
+|     | Action | Time | Status | Info |
+| :-: | :----- | ---: | :----- | :--- |
+| 🟩 | \`RunTarget(website:typecheck)\` | 34.4s | passed |  |
+
+</div></details>"
+`;
+
 exports[`formatReportToMarkdown() renders with git commit 1`] = `
 "<!-- moon-run-report: unknown -->
 

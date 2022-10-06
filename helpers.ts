@@ -208,6 +208,7 @@ export function formatTotalTime({
 }
 
 export interface FormatReportOptions {
+	limit: number;
 	slowThreshold: number;
 	workspaceRoot: string;
 }
@@ -215,7 +216,7 @@ export interface FormatReportOptions {
 // eslint-disable-next-line complexity
 export function formatReportToMarkdown(
 	report: RunReport,
-	{ slowThreshold, workspaceRoot }: FormatReportOptions,
+	{ limit, slowThreshold, workspaceRoot }: FormatReportOptions,
 ): string {
 	const commit = getCommitInfo();
 	const matrix = core.getInput('matrix');
@@ -237,12 +238,15 @@ export function formatReportToMarkdown(
 
 	// ACTIONS
 
-	markdown.push(
+	const tableHeaders = [
 		'|     | Action | Time | Status | Info |',
 		'| :-: | :----- | ---: | :----- | :--- |',
-	);
+	];
+	const overflowRows: string[] = [];
 
-	report.actions.forEach((action) => {
+	markdown.push(...tableHeaders);
+
+	report.actions.forEach((action, index) => {
 		const comments: string[] = [];
 
 		if (isFlaky(action)) {
@@ -257,12 +261,23 @@ export function formatReportToMarkdown(
 			comments.push('**SLOW**');
 		}
 
-		markdown.push(
-			`| ${getIconForStatus(action.status)} | \`${action.label}\` | ${formatDuration(
-				action.duration,
-			)} | ${action.status} | ${comments.join(', ')} |`,
-		);
+		const row = `| ${getIconForStatus(action.status)} | \`${action.label}\` | ${formatDuration(
+			action.duration,
+		)} | ${action.status} | ${comments.join(', ')} |`;
+
+		if (index < limit) {
+			markdown.push(row);
+		} else {
+			overflowRows.push(row);
+		}
 	});
+
+	if (overflowRows.length > 0) {
+		markdown.push(
+			`| | And ${overflowRows.length} more... | | | |`,
+			...createDetailsSection('Expanded report', [...tableHeaders, ...overflowRows]),
+		);
+	}
 
 	// ENVIRONMENT
 

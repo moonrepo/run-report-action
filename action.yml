@@ -5,6 +5,9 @@ inputs:
   access-token:
     description: 'GitHub access token to post comments.'
     required: true
+  limit:
+    description: 'Maximum number of actions to display in the report table.'
+    default: 20
   matrix:
     description: 'Metadata about the current job matrix in JSON.'
     default: ''

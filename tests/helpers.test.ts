@@ -8,6 +8,7 @@ jest.mock('@actions/github', () => ({
 }));
 
 const options = {
+	limit: 20,
 	slowThreshold: 60,
 	workspaceRoot: '',
 };
@@ -75,6 +76,12 @@ describe('formatReportToMarkdown()', () => {
 		).toMatchSnapshot();
 
 		spy.mockRestore();
+	});
+
+	it('renders with a limit', () => {
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/durations.json'), { ...options, limit: 3 }),
+		).toMatchSnapshot();
 	});
 });
 
