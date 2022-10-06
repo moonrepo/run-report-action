@@ -72,6 +72,7 @@ async function saveSummary(markdown: string) {
 async function run() {
 	try {
 		const accessToken = core.getInput('access-token');
+		const limit = Number(core.getInput('limit'));
 		const slowThreshold = Number(core.getInput('slow-threshold'));
 		const workspaceRoot =
 			core.getInput('workspace-root') || process.env.GITHUB_WORKSPACE || process.cwd();
@@ -100,7 +101,7 @@ async function run() {
 		}
 
 		// Format the report into markdown
-		const markdown = formatReportToMarkdown(report, { slowThreshold, workspaceRoot });
+		const markdown = formatReportToMarkdown(report, { limit, slowThreshold, workspaceRoot });
 
 		// Create the comment
 		await saveComment(accessToken, markdown);
