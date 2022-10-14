@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import type { Action, ActionStatus, Duration, RunReport } from '@moonrepo/types';
+import { formatDuration, getDurationInMillis, prepareReportActions } from '@moonrepo/report';
+import type { Duration, RunReport } from '@moonrepo/types';
 
 export function getCommentToken() {
 	return `<!-- moon-run-report: ${core.getInput('matrix') || 'unknown'} -->`;
@@ -19,28 +20,6 @@ export function getCommitInfo() {
 	};
 }
 
-export function getDurationInMillis(duration: Duration): number {
-	return duration.secs * 1000 + duration.nanos / 1_000_000;
-}
-
-export function getIconForStatus(status: ActionStatus): string {
-	switch (status) {
-		case 'cached':
-			return '🟪';
-		// case 'cached-remote':
-		// 	return '🟦';
-		case 'failed':
-		case 'failed-and-abort':
-			return '🟥';
-		case 'invalid':
-			return '🟨';
-		case 'passed':
-			return '🟩';
-		default:
-			return '⬛️';
-	}
-}
-
 export function getMoonEnvVars() {
 	const env: Record<string, string> = {};
 	let count = 0;
@@ -57,94 +36,6 @@ export function getMoonEnvVars() {
 	}
 
 	return env;
-}
-
-export function hasFailed(status: ActionStatus): boolean {
-	return status === 'failed' || status === 'failed-and-abort';
-}
-
-export function hasPassed(status: ActionStatus): boolean {
-	return status === 'passed' || status === 'cached';
-}
-
-export function isFlaky(action: Action): boolean {
-	if (!action.attempts || action.attempts.length === 0) {
-		return false;
-	}
-
-	return hasPassed(action.status) && action.attempts.some((attempt) => hasFailed(attempt.status));
-}
-
-export function isSlow(action: Action, slowThreshold: number): boolean {
-	if (!action.duration) {
-		return false;
-	}
-
-	const millis = getDurationInMillis(action.duration);
-	const threshold = slowThreshold * 1000; // In seconds
-
-	return millis > threshold;
-}
-
-export function formatTime(mins: number, secs: number, millis: number): string {
-	if (mins === 0 && secs === 0 && millis === 0) {
-		return '0s';
-	}
-
-	const format = (val: number) => {
-		let v = val.toFixed(1);
-
-		if (v.endsWith('.0')) {
-			v = v.slice(0, -2);
-		}
-
-		return v;
-	};
-
-	// When minutes, only show mins + secs
-	if (mins > 0) {
-		let value = `${mins}m`;
-
-		if (secs > 0) {
-			value += ` ${secs}s`;
-		}
-
-		return value;
-	}
-
-	// When seconds, only show secs + first milli digit
-	if (secs > 0) {
-		return `${format((secs * 1000 + millis) / 1000)}s`;
-	}
-
-	// When millis, show as is
-	if (millis > 0) {
-		return `${format(millis)}ms`;
-	}
-
-	// How did we get here?
-	return '0s';
-}
-
-export function formatDuration(duration: Duration | null): string {
-	if (!duration) {
-		return '--';
-	}
-
-	if (duration.secs === 0 && duration.nanos === 0) {
-		return '0s';
-	}
-
-	let mins = 0;
-	let { secs } = duration;
-	const millis = duration.nanos / 1_000_000;
-
-	while (secs >= 60) {
-		mins += 1;
-		secs -= 60;
-	}
-
-	return formatTime(mins, secs, millis);
 }
 
 export function calculateSavingsPercentage(projected: Duration, savings: Duration) {
@@ -246,24 +137,10 @@ export function formatReportToMarkdown(
 
 	markdown.push(...tableHeaders);
 
-	report.actions.forEach((action, index) => {
-		const comments: string[] = [];
-
-		if (isFlaky(action)) {
-			comments.push('**FLAKY**');
-		}
-
-		if (action.attempts && action.attempts.length > 1) {
-			comments.push(`${action.attempts.length} attempts`);
-		}
-
-		if (isSlow(action, slowThreshold)) {
-			comments.push('**SLOW**');
-		}
-
-		const row = `| ${getIconForStatus(action.status)} | \`${action.label}\` | ${formatDuration(
-			action.duration,
-		)} | ${action.status} | ${comments.join(', ')} |`;
+	prepareReportActions(report, slowThreshold).forEach((action, index) => {
+		const row = `| ${action.icon} | \`${action.label}\` | ${action.time} | ${
+			report.actions[index].status
+		} | ${action.comments.join(', ')} |`;
 
 		if (index < limit) {
 			markdown.push(row);
@@ -313,38 +190,4 @@ export function formatReportToMarkdown(
 	}
 
 	return markdown.join('\n');
-}
-
-export function sortReport(report: RunReport, sortBy: string, sortDir: string) {
-	const isAsc = sortDir === 'asc';
-	let hasLogged = false;
-
-	report.actions.sort((a, d) => {
-		switch (sortBy) {
-			case 'time': {
-				const at: Duration = a.duration ?? { nanos: 0, secs: 0 };
-				const dt: Duration = d.duration ?? { nanos: 0, secs: 0 };
-				const am = at.secs * 1000 + at.nanos / 1_000_000;
-				const dm = dt.secs * 1000 + dt.nanos / 1_000_000;
-
-				return isAsc ? am - dm : dm - am;
-			}
-
-			case 'label': {
-				const al = a.label ?? '';
-				const dl = d.label ?? '';
-
-				return isAsc ? al.localeCompare(dl) : dl.localeCompare(al);
-			}
-
-			default: {
-				if (!hasLogged) {
-					hasLogged = true;
-					core.debug(`Unknown sort by field "${sortBy}".`);
-				}
-
-				return 0;
-			}
-		}
-	});
 }

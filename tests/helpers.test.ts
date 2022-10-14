@@ -1,7 +1,8 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
+import { sortReport } from '@moonrepo/report';
 import type { RunReport } from '@moonrepo/types';
-import { formatReportToMarkdown, sortReport } from '../helpers';
+import { formatReportToMarkdown } from '../helpers';
 
 jest.mock('@actions/github', () => ({
 	context: { payload: {}, serverUrl: 'https://github.com' },
