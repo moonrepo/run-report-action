@@ -4,8 +4,9 @@ import fs from 'fs';
 import path from 'path';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
+import { sortReport } from '@moonrepo/report';
 import type { RunReport } from '@moonrepo/types';
-import { formatReportToMarkdown, getCommentToken, sortReport } from './helpers';
+import { formatReportToMarkdown, getCommentToken } from './helpers';
 
 function loadReport(workspaceRoot: string): RunReport | null {
 	for (const fileName of ['ciReport.json', 'runReport.json']) {
@@ -94,10 +95,10 @@ async function run() {
 
 		// Sort the actions in the report
 		const sortBy = core.getInput('sort-by');
-		const sortDir = core.getInput('sort-dir') || 'desc';
+		const sortDir = core.getInput('sort-dir') || 'asc';
 
 		if (sortBy) {
-			sortReport(report, sortBy, sortDir);
+			sortReport(report, sortBy as 'time', sortDir as 'asc');
 		}
 
 		// Format the report into markdown
