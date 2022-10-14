@@ -95,10 +95,10 @@ async function run() {
 
 		// Sort the actions in the report
 		const sortBy = core.getInput('sort-by');
-		const sortDir = core.getInput('sort-dir') || 'asc';
+		const sortDir = core.getInput('sort-dir') || 'desc';
 
 		if (sortBy) {
-			sortReport(report, sortBy as 'time', sortDir as 'asc');
+			sortReport(report, sortBy as 'time', sortDir as 'desc');
 		}
 
 		// Format the report into markdown
