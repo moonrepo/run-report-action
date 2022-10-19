@@ -104,15 +104,16 @@ async function run() {
 		// Format the report into markdown
 		const markdown = formatReportToMarkdown(report, { limit, slowThreshold, workspaceRoot });
 
-		// Create the comment
+		// Create the comment (does not work in forks)
 		try {
 			await saveComment(accessToken, markdown);
 		} catch (error: unknown) {
-			core.error(String(error));
-			core.info('\n\nFailed to create comment on pull request. Perhaps this is ran in a fork?');
+			core.warning(String(error));
+			core.notice('\nFailed to create comment on pull request. Perhaps this is ran in a fork?\n');
 			core.info(markdown);
 		}
 
+		// Create an action summary (does work in forks)
 		await saveSummary(markdown);
 
 		core.setOutput('comment-created', 'true');
