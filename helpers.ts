@@ -139,7 +139,7 @@ export function formatReportToMarkdown(
 
 	prepareReportActions(report, slowThreshold).forEach((action, index) => {
 		const row = `| ${action.icon} | \`${action.label}\` | ${action.time} | ${
-			report.actions[index].status
+			action.status
 		} | ${action.comments.join(', ')} |`;
 
 		if (index < limit) {
