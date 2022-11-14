@@ -1,3 +1,8 @@
+# 1.3.0
+
+- Support new remote caching status.
+- Use human readable status labels.
+
 # 1.2.0
 
 - Added `limit` input setting, that limits the number of actions in the table. Overflow actions will
