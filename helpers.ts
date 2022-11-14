@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { formatDuration, getDurationInMillis, prepareReportActions } from '@moonrepo/report';
-import type { Duration, RunReport } from '@moonrepo/types';
+import type { ActionStatus, Duration, RunReport } from '@moonrepo/types';
 
 export function getCommentToken() {
 	return `<!-- moon-run-report: ${core.getInput('matrix') || 'unknown'} -->`;
@@ -98,6 +98,25 @@ export function formatTotalTime({
 	return parts.join(' | ');
 }
 
+function formatStatusLabel(status: ActionStatus): string {
+	switch (status) {
+		case 'cached':
+		case 'cached-from-remote':
+			return 'Cached';
+		case 'failed':
+		case 'failed-and-abort':
+			return 'Failed';
+		case 'invalid':
+			return 'Invalid';
+		case 'passed':
+			return 'Passed';
+		case 'skipped':
+			return 'Skipped';
+		default:
+			return 'Running';
+	}
+}
+
 export interface FormatReportOptions {
 	limit: number;
 	slowThreshold: number;
@@ -138,9 +157,9 @@ export function formatReportToMarkdown(
 	markdown.push(...tableHeaders);
 
 	prepareReportActions(report, slowThreshold).forEach((action, index) => {
-		const row = `| ${action.icon} | \`${action.label}\` | ${action.time} | ${
-			action.status
-		} | ${action.comments.join(', ')} |`;
+		const row = `| ${action.icon} | \`${action.label}\` | ${action.time} | ${formatStatusLabel(
+			action.status,
+		)} | ${action.comments.join(', ')} |`;
 
 		if (index < limit) {
 			markdown.push(row);
