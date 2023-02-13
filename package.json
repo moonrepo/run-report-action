@@ -1,6 +1,6 @@
 {
   "name": "@moonrepo/run-report-action",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A GitHub action that reports the run results of `moon ci` to a pull request.",
   "main": "dist/index.js",
   "scripts": {
