@@ -83,18 +83,20 @@ export function formatTotalTime({
 	if (comparisonEstimate) {
 		parts.push(`Comparison time: ${formatDuration(comparisonEstimate.duration)}`);
 
-		if (comparisonEstimate.savingsPercent > 0) {
-			parts.push(
-				`Estimated savings: ${formatDuration(comparisonEstimate.savings)} (${
-					comparisonEstimate.savingsPercent
-				}% decrease)`,
-			);
-		} else {
-			parts.push(
-				`Estimated loss: ${formatDuration(comparisonEstimate.savings)} (${Math.abs(
-					comparisonEstimate.savingsPercent,
-				)}% increase)`,
-			);
+		if (comparisonEstimate.savingsPercent !== 0) {
+			if (comparisonEstimate.savingsPercent > 0) {
+				parts.push(
+					`Estimated savings: ${formatDuration(comparisonEstimate.savings)} (${
+						comparisonEstimate.savingsPercent
+					}% decrease)`,
+				);
+			} else {
+				parts.push(
+					`Estimated loss: ${formatDuration(comparisonEstimate.savings)} (${Math.abs(
+						comparisonEstimate.savingsPercent,
+					)}% increase)`,
+				);
+			}
 		}
 	} else if (projectedDuration) {
 		parts.push(`Projected time: ${formatDuration(projectedDuration)}`);
@@ -102,12 +104,16 @@ export function formatTotalTime({
 		if (estimatedSavings) {
 			const percent = calculateSavingsPercentage(projectedDuration, estimatedSavings);
 
-			if (percent > 0) {
-				parts.push(`Estimated savings: ${formatDuration(estimatedSavings)} (${percent}% decrease)`);
-			} else {
-				parts.push(
-					`Estimated loss: ${formatDuration(estimatedSavings)} (${Math.abs(percent)}% increase)`,
-				);
+			if (percent !== 0) {
+				if (percent > 0) {
+					parts.push(
+						`Estimated savings: ${formatDuration(estimatedSavings)} (${percent}% decrease)`,
+					);
+				} else {
+					parts.push(
+						`Estimated loss: ${formatDuration(estimatedSavings)} (${Math.abs(percent)}% increase)`,
+					);
+				}
 			}
 		}
 	}
