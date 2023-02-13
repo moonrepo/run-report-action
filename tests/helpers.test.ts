@@ -45,6 +45,12 @@ describe('formatReportToMarkdown()', () => {
 		).toMatchSnapshot();
 	});
 
+	it('renders comparison estimate', () => {
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/estimate.json'), options),
+		).toMatchSnapshot();
+	});
+
 	it('renders with git commit', () => {
 		Object.assign(github.context, {
 			sha: '59719f967ddcf585da9bc7ba8730dcd2865cbdfa',

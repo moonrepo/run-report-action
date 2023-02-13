@@ -1,3 +1,7 @@
+# 1.4.0
+
+- Support moon v0.24 comparison estimate changes.
+
 # 1.3.0
 
 - Support new remote caching status.
