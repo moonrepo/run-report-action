@@ -54,6 +54,19 @@ exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 | 🟥 | \`RunTarget(runtime:typecheck)\` | 2.4s | Failed | 3 attempts |"
 `;
 
+exports[`formatReportToMarkdown() renders comparison estimate 1`] = `
+"<!-- moon-run-report: unknown -->
+
+## Run report
+Total time: 371ms | Comparison time: 1.4s | Estimated savings: 990.8ms (10% decrease)
+|     | Action | Time | Status | Info |
+| :-: | :----- | ---: | :----- | :--- |
+| 🟪 | \`RunTarget(types:build)\` | 0s | Cached |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 32m 2s | Passed | **SLOW** |
+| 🟩 | \`RunTarget(types:typecheck)\` | 1m 4s | Passed | **SLOW** |
+| 🟩 | \`RunTarget(website:typecheck)\` | 34.4s | Passed |  |"
+`;
+
 exports[`formatReportToMarkdown() renders durations 1`] = `
 "<!-- moon-run-report: unknown -->
 
