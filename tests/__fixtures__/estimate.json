@@ -60,11 +60,12 @@
     "nanos": 371006844
   },
   "comparisonEstimate": {
-    "savings": {
+    "gain": {
       "secs": 0,
       "nanos": 990820168
     },
-    "savingsPercent": 10,
+    "loss": null,
+    "percent": 10,
     "duration": {
       "secs": 1,
       "nanos": 361827012

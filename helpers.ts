@@ -83,17 +83,17 @@ export function formatTotalTime({
 	if (comparisonEstimate) {
 		parts.push(`Comparison time: ${formatDuration(comparisonEstimate.duration)}`);
 
-		if (comparisonEstimate.savingsPercent !== 0) {
-			if (comparisonEstimate.savingsPercent > 0) {
+		if (comparisonEstimate.percent !== 0) {
+			if (comparisonEstimate.percent > 0 && comparisonEstimate.gain) {
 				parts.push(
-					`Estimated savings: ${formatDuration(comparisonEstimate.savings)} (${
-						comparisonEstimate.savingsPercent
+					`Estimated savings: ${formatDuration(comparisonEstimate.gain)} (${
+						comparisonEstimate.percent
 					}% decrease)`,
 				);
-			} else {
+			} else if (comparisonEstimate.percent < 0 && comparisonEstimate.loss) {
 				parts.push(
-					`Estimated loss: ${formatDuration(comparisonEstimate.savings)} (${Math.abs(
-						comparisonEstimate.savingsPercent,
+					`Estimated loss: ${formatDuration(comparisonEstimate.loss)} (${Math.abs(
+						comparisonEstimate.percent,
 					)}% increase)`,
 				);
 			}
