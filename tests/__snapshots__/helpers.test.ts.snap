@@ -58,7 +58,7 @@ exports[`formatReportToMarkdown() renders comparison estimate 1`] = `
 "<!-- moon-run-report: unknown -->
 
 ## Run report
-Total time: 371ms | Comparison time: 1.4s | Estimated savings: 990.8ms (10% decrease)
+Total time: 371ms | Comparison time: 1.4s | Estimated savings: 990.8ms (10.0% faster)
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟪 | \`RunTarget(types:build)\` | 0s | Cached |  |
