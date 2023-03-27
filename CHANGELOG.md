@@ -1,3 +1,8 @@
+# 1.5.0
+
+- Support moon v1.
+- Support `PROTO` env vars.
+
 # 1.4.0
 
 - Support moon v0.24 comparison estimate changes.
