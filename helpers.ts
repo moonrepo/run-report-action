@@ -202,7 +202,7 @@ export function formatReportToMarkdown(
 
 	const envVars = getMoonEnvVars();
 
-	if (matrixData || envVars) {
+	if (matrixData ?? envVars) {
 		const section = [
 			`**OS:** ${process.env.NODE_ENV === 'test' ? 'Test' : process.env.RUNNER_OS ?? 'unknown'}`,
 		];
