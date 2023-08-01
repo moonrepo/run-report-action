@@ -25,7 +25,11 @@ export function getMoonEnvVars() {
 	let count = 0;
 
 	Object.entries(process.env).forEach(([key, value]) => {
-		if ((key.startsWith('MOON_') || key.startsWith('PROTO_')) && value) {
+		if (
+			(key.startsWith('MOON_') || key.startsWith('PROTO_')) &&
+			value &&
+			process.env.NODE_ENV !== 'test'
+		) {
 			env[key] = value;
 			count += 1;
 		}
@@ -202,7 +206,7 @@ export function formatReportToMarkdown(
 
 	const envVars = getMoonEnvVars();
 
-	if (matrixData || envVars) {
+	if (matrixData ?? envVars) {
 		const section = [
 			`**OS:** ${process.env.NODE_ENV === 'test' ? 'Test' : process.env.RUNNER_OS ?? 'unknown'}`,
 		];
