@@ -25,7 +25,11 @@ export function getMoonEnvVars() {
 	let count = 0;
 
 	Object.entries(process.env).forEach(([key, value]) => {
-		if ((key.startsWith('MOON_') || key.startsWith('PROTO_')) && value) {
+		if (
+			(key.startsWith('MOON_') || key.startsWith('PROTO_')) &&
+			value &&
+			process.env.NODE_ENV !== 'test'
+		) {
 			env[key] = value;
 			count += 1;
 		}
