@@ -8,14 +8,17 @@ export function getCommentToken() {
 }
 
 export function getCommitInfo() {
-	const { repo, serverUrl, sha } = github.context;
+	const { repo, serverUrl, sha: baseSha } = github.context;
+
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
+	const sha = github.context.payload.pull_request?.head?.sha ?? baseSha;
 
 	if (!sha || !repo) {
 		return null;
 	}
 
 	return {
-		sha,
+		sha: String(sha),
 		url: `${serverUrl}/${repo.owner}/${repo.repo}/commit/${sha}`,
 	};
 }

@@ -1,5 +1,6 @@
 # 1.5.2
 
+- Fixed the wrong sha being display for PRs.
 - Updated dependencies.
 
 # 1.5.1
