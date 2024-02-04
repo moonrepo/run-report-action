@@ -27,7 +27,7 @@ outputs:
   comment-created:
     description: 'Whether or not the comment was created on the pull request.'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 branding:
   icon: 'moon'
