@@ -1,3 +1,8 @@
+# 1.6.0
+
+- Updated actiont to Node.js v20.
+- Updated dependencies.
+
 # 1.5.2
 
 - Fixed the wrong sha being display for PRs.
