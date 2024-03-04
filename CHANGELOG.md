@@ -1,3 +1,8 @@
+# 1.6.1
+
+- Will now also work on `push` events on not just `pull_request`.
+- Updated dependencies.
+
 # 1.6.0
 
 - Updated actiont to Node.js v20.
