@@ -29,14 +29,29 @@ async function saveComment(accessToken: string, markdown: string) {
 		payload: { pull_request: pr, issue },
 		repo,
 	} = github.context;
-	const id = pr?.number ?? issue?.number;
+
+	let id = pr?.number ?? issue?.number;
+
+	const octokit = github.getOctokit(accessToken);
+
+	if (!id) {
+		core.debug(
+			'No pull request or issue found from context, trying to find pull requests associated with commit',
+		);
+
+		const { data: pullRequests } = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
+			...repo,
+			commit_sha: github.context.sha,
+		});
+
+		id = pullRequests[0]?.number;
+	}
 
 	if (!id) {
 		core.warning('No pull request or issue found, will not add a comment.');
 		return;
 	}
 
-	const octokit = github.getOctokit(accessToken);
 	const { data: comments } = await octokit.rest.issues.listComments({
 		...repo,
 		issue_number: id,
