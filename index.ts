@@ -89,6 +89,7 @@ async function run() {
 	try {
 		const accessToken = core.getInput('access-token');
 		const limit = Number(core.getInput('limit'));
+		const skipComment = core.getInput('skip-comment') === 'true';
 		const slowThreshold = Number(core.getInput('slow-threshold'));
 		const workspaceRoot =
 			core.getInput('workspace-root') || process.env.GITHUB_WORKSPACE || process.cwd();
@@ -119,6 +120,12 @@ async function run() {
 		// Format the report into markdown
 		const markdown = formatReportToMarkdown(report, { limit, slowThreshold, workspaceRoot });
 		core.setOutput('report', markdown);
+
+		if (skipComment) {
+			core.debug('Skipping comment creation');
+			core.setOutput('comment-created', 'false');
+			return;
+		}
 
 		// Create the comment (does not work in forks)
 		try {
