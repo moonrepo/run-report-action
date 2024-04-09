@@ -118,6 +118,7 @@ async function run() {
 
 		// Format the report into markdown
 		const markdown = formatReportToMarkdown(report, { limit, slowThreshold, workspaceRoot });
+		core.setOutput('report', markdown);
 
 		// Create the comment (does not work in forks)
 		try {

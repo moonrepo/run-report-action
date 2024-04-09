@@ -26,6 +26,8 @@ inputs:
 outputs:
   comment-created:
     description: 'Whether or not the comment was created on the pull request.'
+  report:
+    description: 'The generated report.'
 runs:
   using: 'node20'
   main: 'dist/index.js'
