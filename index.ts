@@ -89,6 +89,7 @@ async function run() {
 	try {
 		const accessToken = core.getInput('access-token');
 		const limit = Number(core.getInput('limit'));
+		const skipComment = core.getBooleanInput('skip-comment');
 		const slowThreshold = Number(core.getInput('slow-threshold'));
 		const workspaceRoot =
 			core.getInput('workspace-root') || process.env.GITHUB_WORKSPACE || process.cwd();
@@ -118,20 +119,25 @@ async function run() {
 
 		// Format the report into markdown
 		const markdown = formatReportToMarkdown(report, { limit, slowThreshold, workspaceRoot });
+		core.setOutput('report', markdown);
 
-		// Create the comment (does not work in forks)
-		try {
-			await saveComment(accessToken, markdown);
-		} catch (error: unknown) {
-			core.warning(String(error));
-			core.notice('\nFailed to create comment on pull request. Perhaps this is ran in a fork?\n');
-			core.info(markdown);
+		if (skipComment) {
+			core.debug('Skipping comment creation');
+		} else {
+			// Create the comment (does not work in forks)
+			try {
+				await saveComment(accessToken, markdown);
+			} catch (error: unknown) {
+				core.warning(String(error));
+				core.notice('\nFailed to create comment on pull request. Perhaps this is ran in a fork?\n');
+				core.info(markdown);
+			}
 		}
 
 		// Create an action summary (does work in forks)
 		await saveSummary(markdown);
 
-		core.setOutput('comment-created', 'true');
+		core.setOutput('comment-created', skipComment ? 'false' : 'true');
 	} catch (error: unknown) {
 		core.setOutput('comment-created', 'false');
 		core.setFailed((error as Error).message);
