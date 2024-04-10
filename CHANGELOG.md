@@ -1,3 +1,8 @@
+# 1.7.0
+
+- Added a `skip-comment` input setting to disable commenting on PRs.
+- Added a `report` output that includes the markdown content.
+
 # 1.6.1
 
 - Will now also work on `push` events on not just `pull_request`.
