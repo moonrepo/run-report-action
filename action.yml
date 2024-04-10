@@ -13,7 +13,7 @@ inputs:
     default: ''
   skip-comment:
     description: 'Skip creating a comment. Useful alongside `report` output.'
-    default: false
+    default: 'false'
   slow-threshold:
     description: 'Number of seconds before an action is to be considered slow.'
     default: 120
