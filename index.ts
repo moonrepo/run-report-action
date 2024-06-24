@@ -105,7 +105,7 @@ async function run() {
 		// `moon ci` may have run, but nothing may be affected,
 		// so instead of throwing an error, just log a message.
 		if (!report) {
-			core.warning('Run report does not exist, has `moon ci` ran?');
+			core.warning('Run report does not exist, has `moon ci` or `moon run` ran?');
 			return;
 		}
 

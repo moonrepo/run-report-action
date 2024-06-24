@@ -1,3 +1,8 @@
+# 1.8.0
+
+- Support moon v1.26.
+- Updated dependencies.
+
 # 1.7.0
 
 - Added a `skip-comment` input setting to disable commenting on PRs.
