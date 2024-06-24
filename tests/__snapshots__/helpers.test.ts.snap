@@ -49,7 +49,7 @@ exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 ## Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | Passed | **FLAKY**, 3 attempts |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | Passed | 3 attempts |
 | 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | Passed | 2 attempts |
 | 🟥 | \`RunTarget(runtime:typecheck)\` | 2.4s | Failed | 3 attempts |"
 `;
@@ -71,7 +71,7 @@ exports[`formatReportToMarkdown() renders durations 1`] = `
 "<!-- moon-run-report: unknown -->
 
 ## Run report
-Total time: 371ms | Projected time: 1.4s | Estimated savings: 990.8ms (73% decrease)
+Total time: 371ms
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟪 | \`RunTarget(types:build)\` | 0s | Cached |  |
@@ -94,7 +94,7 @@ exports[`formatReportToMarkdown() renders with a limit 1`] = `
 "<!-- moon-run-report: unknown -->
 
 ## Run report
-Total time: 371ms | Projected time: 1.4s | Estimated savings: 990.8ms (73% decrease)
+Total time: 371ms
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
 | 🟪 | \`RunTarget(types:build)\` | 0s | Cached |  |

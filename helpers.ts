@@ -79,12 +79,7 @@ export function createDetailsSection(title: string, body: string[]): string[] {
 	];
 }
 
-export function formatTotalTime({
-	duration,
-	projectedDuration,
-	estimatedSavings,
-	comparisonEstimate,
-}: RunReport): string {
+export function formatTotalTime({ duration, comparisonEstimate }: RunReport): string {
 	const parts = [`Total time: ${formatDuration(duration)}`];
 
 	if (comparisonEstimate) {
@@ -105,24 +100,6 @@ export function formatTotalTime({
 				);
 			}
 		}
-	} else if (projectedDuration) {
-		parts.push(`Projected time: ${formatDuration(projectedDuration)}`);
-
-		if (estimatedSavings) {
-			const percent = calculateSavingsPercentage(projectedDuration, estimatedSavings);
-
-			if (percent !== 0) {
-				if (percent > 0) {
-					parts.push(
-						`Estimated savings: ${formatDuration(estimatedSavings)} (${percent}% decrease)`,
-					);
-				} else {
-					parts.push(
-						`Estimated loss: ${formatDuration(estimatedSavings)} (${Math.abs(percent)}% increase)`,
-					);
-				}
-			}
-		}
 	}
 
 	return parts.join(' | ');
@@ -130,6 +107,8 @@ export function formatTotalTime({
 
 function formatStatusLabel(status: ActionStatus): string {
 	switch (status) {
+		case 'aborted':
+			return 'Aborted';
 		case 'cached':
 		case 'cached-from-remote':
 			return 'Cached';
@@ -142,6 +121,8 @@ function formatStatusLabel(status: ActionStatus): string {
 			return 'Passed';
 		case 'skipped':
 			return 'Skipped';
+		case 'timed-out':
+			return 'Timed out';
 		default:
 			return 'Running';
 	}

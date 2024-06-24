@@ -58,13 +58,5 @@
   "duration": {
     "secs": 0,
     "nanos": 371006844
-  },
-  "estimatedSavings": {
-    "secs": 0,
-    "nanos": 990820168
-  },
-  "projectedDuration": {
-    "secs": 1,
-    "nanos": 361827012
   }
 }
