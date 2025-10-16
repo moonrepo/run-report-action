@@ -1,6 +1,6 @@
 {
   "name": "@moonrepo/run-report-action",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "A GitHub action that reports the run results of `moon ci` to a pull request.",
   "main": "dist/index.js",
   "scripts": {
@@ -20,8 +20,8 @@
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.1",
-    "@moonrepo/report": "^1.4.0",
-    "@moonrepo/types": "^1.33.2"
+    "@moonrepo/report": "^1.4.1",
+    "@moonrepo/types": "^1.33.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",

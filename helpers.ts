@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { formatDuration, getDurationInMillis, prepareReportActions } from '@moonrepo/report';
-import type { ActionStatus, Duration, RunReport } from '@moonrepo/types';
+import type { ActionContext, ActionStatus, Duration, RunReport } from '@moonrepo/types';
 
 export function getCommentToken() {
 	return `<!-- moon-run-report: ${core.getInput('matrix') || 'unknown'} -->`;
@@ -208,13 +208,24 @@ export function formatReportToMarkdown(
 
 	// TOUCHED FILES
 
-	const { touchedFiles } = report.context;
+	const { touchedFiles = [], changedFiles = [] } = report.context as ActionContext & {
+		changedFiles?: string[];
+	};
 
 	if (touchedFiles.length > 0) {
 		markdown.push(
 			...createDetailsSection(
 				'Touched files',
 				createCodeBlock(touchedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
+			),
+		);
+	}
+
+	if (changedFiles.length > 0) {
+		markdown.push(
+			...createDetailsSection(
+				'Changed files',
+				createCodeBlock(changedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
 			),
 		);
 	}

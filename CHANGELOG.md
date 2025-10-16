@@ -1,3 +1,8 @@
+# 1.9.0
+
+- Support future moon v2 features.
+- Updated dependencies.
+
 # 1.8.0
 
 - Support moon v1.26.
