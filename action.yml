@@ -14,6 +14,9 @@ inputs:
   skip-comment:
     description: 'Skip creating a comment. Useful alongside `report` output.'
     default: 'false'
+  include-touched-files:
+    description: 'Include touched/changed files in the report.'
+    default: 'true'
   slow-threshold:
     description: 'Number of seconds before an action is to be considered slow.'
     default: 120

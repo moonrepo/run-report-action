@@ -43,6 +43,23 @@ packages/example/src/index.ts
 </div></details>"
 `;
 
+exports[`formatReportToMarkdown() renders a standard report without touched files 1`] = `
+"<!-- moon-run-report: unknown -->
+
+## Run report
+|     | Action | Time | Status | Info |
+| :-: | :----- | ---: | :----- | :--- |
+| ⬛️ | \`SetupNodeToolchain\` | 1.4ms | Skipped |  |
+| ⬛️ | \`SyncNodeProject(types)\` | 3.2ms | Skipped |  |
+| ⬛️ | \`InstallNodeDeps\` | 3.6ms | Skipped |  |
+| ⬛️ | \`SyncNodeProject(runtime)\` | 3.7ms | Skipped |  |
+| ⬛️ | \`SyncNodeProject(website)\` | 4ms | Skipped |  |
+| 🟪 | \`RunTarget(types:build)\` | 310.2ms | Cached |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | Passed |  |
+| 🟩 | \`RunTarget(types:typecheck)\` | 571.6ms | Passed |  |
+| 🟩 | \`RunTarget(website:typecheck)\` | 4.4s | Passed |  |"
+`;
+
 exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 "<!-- moon-run-report: unknown -->
 

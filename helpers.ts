@@ -129,6 +129,7 @@ function formatStatusLabel(status: ActionStatus): string {
 }
 
 export interface FormatReportOptions {
+	includeTouchedFiles: boolean;
 	limit: number;
 	slowThreshold: number;
 	workspaceRoot: string;
@@ -137,7 +138,7 @@ export interface FormatReportOptions {
 // eslint-disable-next-line complexity
 export function formatReportToMarkdown(
 	report: RunReport,
-	{ limit, slowThreshold, workspaceRoot }: FormatReportOptions,
+	{ includeTouchedFiles, limit, slowThreshold, workspaceRoot }: FormatReportOptions,
 ): string {
 	const commit = getCommitInfo();
 	const matrix = core.getInput('matrix');
@@ -208,26 +209,28 @@ export function formatReportToMarkdown(
 
 	// TOUCHED FILES
 
-	const { touchedFiles = [], changedFiles = [] } = report.context as ActionContext & {
-		changedFiles?: string[];
-	};
+	if (includeTouchedFiles) {
+		const { touchedFiles = [], changedFiles = [] } = report.context as ActionContext & {
+			changedFiles?: string[];
+		};
 
-	if (touchedFiles.length > 0) {
-		markdown.push(
-			...createDetailsSection(
-				'Touched files',
-				createCodeBlock(touchedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
-			),
-		);
-	}
+		if (touchedFiles.length > 0) {
+			markdown.push(
+				...createDetailsSection(
+					'Touched files',
+					createCodeBlock(touchedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
+				),
+			);
+		}
 
-	if (changedFiles.length > 0) {
-		markdown.push(
-			...createDetailsSection(
-				'Changed files',
-				createCodeBlock(changedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
-			),
-		);
+		if (changedFiles.length > 0) {
+			markdown.push(
+				...createDetailsSection(
+					'Changed files',
+					createCodeBlock(changedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
+				),
+			);
+		}
 	}
 
 	return markdown.join('\n');

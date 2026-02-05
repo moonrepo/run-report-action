@@ -88,6 +88,7 @@ async function saveSummary(markdown: string) {
 async function run() {
 	try {
 		const accessToken = core.getInput('access-token');
+		const includeTouchedFiles = core.getBooleanInput('include-touched-files');
 		const limit = Number(core.getInput('limit'));
 		const skipComment = core.getBooleanInput('skip-comment');
 		const slowThreshold = Number(core.getInput('slow-threshold'));
@@ -118,7 +119,12 @@ async function run() {
 		}
 
 		// Format the report into markdown
-		const markdown = formatReportToMarkdown(report, { limit, slowThreshold, workspaceRoot });
+		const markdown = formatReportToMarkdown(report, {
+			includeTouchedFiles,
+			limit,
+			slowThreshold,
+			workspaceRoot,
+		});
 		core.setOutput('report', markdown);
 
 		if (skipComment) {

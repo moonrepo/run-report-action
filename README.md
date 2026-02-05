@@ -53,6 +53,8 @@ jobs:
 
 - `access-token` (`string`) - REQUIRED: A GitHub access token that's used for posting comments on
   the pull request.
+- `include-touched-files` (`boolean`) - Include touched/changed files in the report.
+  Defaults to `true`.
 - `matrix` (`string`) - The workflow's build matrix as a JSON string. This is required for
   differentiating builds/comments.
 - `slow-threshold` (`number`) - Number of seconds before an action is to be considered slow.

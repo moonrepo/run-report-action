@@ -9,6 +9,7 @@ jest.mock('@actions/github', () => ({
 }));
 
 const options = {
+	includeTouchedFiles: true,
 	limit: 20,
 	slowThreshold: 60,
 	workspaceRoot: '',
@@ -24,6 +25,15 @@ describe('formatReportToMarkdown()', () => {
 	it('renders a standard report with touched files', () => {
 		expect(
 			formatReportToMarkdown(require('./__fixtures__/standard-touched-files.json'), options),
+		).toMatchSnapshot();
+	});
+
+	it('renders a standard report without touched files', () => {
+		expect(
+			formatReportToMarkdown(require('./__fixtures__/standard-touched-files.json'), {
+				...options,
+				includeTouchedFiles: false,
+			}),
 		).toMatchSnapshot();
 	});
 
