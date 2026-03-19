@@ -113,7 +113,6 @@ function formatStatusLabel(status: ActionStatus): string {
 		case 'cached-from-remote':
 			return 'Cached';
 		case 'failed':
-		case 'failed-and-abort':
 			return 'Failed';
 		case 'invalid':
 			return 'Invalid';
@@ -123,8 +122,10 @@ function formatStatusLabel(status: ActionStatus): string {
 			return 'Skipped';
 		case 'timed-out':
 			return 'Timed out';
-		default:
+		case 'running':
 			return 'Running';
+		default:
+			return 'Unknown';
 	}
 }
 
@@ -209,7 +210,8 @@ export function formatReportToMarkdown(
 	// TOUCHED FILES
 
 	const { touchedFiles = [], changedFiles = [] } = report.context as ActionContext & {
-		changedFiles?: string[];
+		touchedFiles?: string[]; // v1
+		changedFiles?: string[]; // v2
 	};
 
 	if (touchedFiles.length > 0) {

@@ -7,7 +7,7 @@ inputs:
     required: true
   limit:
     description: 'Maximum number of actions to display in the report table.'
-    default: 20
+    default: '20'
   matrix:
     description: 'Metadata about the current job matrix in JSON.'
     default: ''
@@ -16,7 +16,7 @@ inputs:
     default: 'false'
   slow-threshold:
     description: 'Number of seconds before an action is to be considered slow.'
-    default: 120
+    default: '120'
   sort-by:
     description: 'Field to sort actions by. Accepts "time" or "label".'
     default: ''
@@ -32,7 +32,7 @@ outputs:
   report:
     description: 'The generated report.'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
 branding:
   icon: 'moon'

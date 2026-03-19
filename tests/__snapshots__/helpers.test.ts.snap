@@ -49,9 +49,9 @@ exports[`formatReportToMarkdown() renders attempts and flakiness 1`] = `
 ## Run report
 |     | Action | Time | Status | Info |
 | :-: | :----- | ---: | :----- | :--- |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | Passed | 3 attempts |
-| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | Passed | 2 attempts |
-| 🟥 | \`RunTarget(runtime:typecheck)\` | 2.4s | Failed | 3 attempts |"
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | Passed |  |
+| 🟩 | \`RunTarget(runtime:typecheck)\` | 2.4s | Passed |  |
+| 🟥 | \`RunTarget(runtime:typecheck)\` | 2.4s | Failed |  |"
 `;
 
 exports[`formatReportToMarkdown() renders comparison estimate 1`] = `

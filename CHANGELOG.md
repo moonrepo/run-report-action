@@ -1,3 +1,8 @@
+# 1.10.0
+
+- Support moon v2.
+- Updated action to Node.js v24.
+
 # 1.9.0
 
 - Support future moon v2 features.
@@ -20,7 +25,7 @@
 
 # 1.6.0
 
-- Updated actiont to Node.js v20.
+- Updated action to Node.js v20.
 - Updated dependencies.
 
 # 1.5.2
