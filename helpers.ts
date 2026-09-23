@@ -52,11 +52,54 @@ export function calculateSavingsPercentage(projected: Duration, savings: Duratio
 	return Math.round((diff / base) * 100);
 }
 
+/**
+ * Maximum number of file paths listed in a touched/changed files section
+ * before the remainder is summarised as a count.
+ */
+export const MAX_LISTED_FILES = 100;
+
+/**
+ * Append `items` to `target` without spreading them into the call.
+ *
+ * `target.push(...items)` passes every element as a separate argument, and V8
+ * caps an argument list somewhere between 125k and 200k entries. Past that, it
+ * throws `RangeError: Maximum call stack size exceeded`.
+ *
+ * Array *literal* spread (`[...items]`) is a different mechanism and is safe at
+ * any length; only the call-argument form is capped.
+ */
+function append(target: string[], items: readonly string[]) {
+	for (const item of items) {
+		target.push(item);
+	}
+}
+
+/**
+ * Sort the file list, make each path relative to the workspace, and cap the
+ * result at `MAX_LISTED_FILES` with a trailing count.
+ *
+ * Sorting happens before the slice so the listing is the alphabetical head of
+ * the whole set rather than the head of whatever order moon emitted.
+ */
+export function prepareFileList(files: string[], workspaceRoot: string): string[] {
+	const sorted = files.map((file) => `${file.replace(workspaceRoot, '')}`).sort();
+
+	if (sorted.length <= MAX_LISTED_FILES) {
+		return sorted;
+	}
+
+	const listed = sorted.slice(0, MAX_LISTED_FILES);
+
+	listed.push(`… and ${sorted.length - MAX_LISTED_FILES} more`);
+
+	return listed;
+}
+
 export function createCodeBlock(map: Record<string, unknown> | string[]): string[] {
 	const code = ['```'];
 
 	if (Array.isArray(map)) {
-		code.push(...map);
+		append(code, map);
 	} else {
 		Object.entries(map).forEach(([key, value]) => {
 			code.push(`${key} = ${value}`);
@@ -181,9 +224,10 @@ export function formatReportToMarkdown(
 	});
 
 	if (overflowRows.length > 0) {
-		markdown.push(
-			`| | And ${overflowRows.length} more... | | | |`,
-			...createDetailsSection('Expanded report', [...tableHeaders, ...overflowRows]),
+		markdown.push(`| | And ${overflowRows.length} more... | | | |`);
+		append(
+			markdown,
+			createDetailsSection('Expanded report', [...tableHeaders, ...overflowRows]),
 		);
 	}
 
@@ -215,19 +259,21 @@ export function formatReportToMarkdown(
 	};
 
 	if (touchedFiles.length > 0) {
-		markdown.push(
-			...createDetailsSection(
+		append(
+			markdown,
+			createDetailsSection(
 				'Touched files',
-				createCodeBlock(touchedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
+				createCodeBlock(prepareFileList(touchedFiles, workspaceRoot)),
 			),
 		);
 	}
 
 	if (changedFiles.length > 0) {
-		markdown.push(
-			...createDetailsSection(
+		append(
+			markdown,
+			createDetailsSection(
 				'Changed files',
-				createCodeBlock(changedFiles.map((file) => `${file.replace(workspaceRoot, '')}`).sort()),
+				createCodeBlock(prepareFileList(changedFiles, workspaceRoot)),
 			),
 		);
 	}
